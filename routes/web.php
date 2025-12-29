@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CapsterController;
 use App\Http\Controllers\HairModelController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,6 +16,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
+
+    Route::get('capster', [CapsterController::class, 'index'])
+        ->name('capsters.index');
+    Route::get('capster/create', [CapsterController::class, 'create'])
+        ->name('capsters.create');
+    Route::post('capster', [CapsterController::class, 'store'])
+        ->name('capsters.store');
+    Route::get('capster/{capster}/edit', [CapsterController::class, 'edit'])
+        ->name('capsters.edit');
+    Route::put('capster/{capster}', [CapsterController::class, 'update'])
+        ->name('capsters.update');
+    Route::delete('capster/{capster}', [CapsterController::class, 'destroy'])
+        ->name('capsters.destroy');
 
     Route::get('model-rambut', [HairModelController::class, 'index'])
         ->name('hair-models.index');

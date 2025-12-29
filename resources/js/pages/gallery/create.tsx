@@ -24,26 +24,63 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function GalleryCreate() {
     const { toast } = useToast();
     const form = useForm<{
-        title: string;
-        description: string;
-        image: File | null;
-        is_active: boolean;
-        order: string;
+        items: Array<{
+            title: string;
+            description: string;
+            image: File | null;
+            is_active: boolean;
+            order: string;
+        }>;
     }>({
-        title: '',
-        description: '',
-        image: null,
-        is_active: true,
-        order: '',
+        items: [
+            {
+                title: '',
+                description: '',
+                image: null,
+                is_active: true,
+                order: '',
+            },
+        ],
     });
+
+    const getError = (field: string) =>
+        (form.errors as Record<string, string | undefined>)[field];
+
+    const addRow = () => {
+        form.setData('items', [
+            ...form.data.items,
+            {
+                title: '',
+                description: '',
+                image: null,
+                is_active: true,
+                order: '',
+            },
+        ]);
+    };
+
+    const removeRow = (index: number) => {
+        if (form.data.items.length === 1) {
+            return;
+        }
+
+        form.setData(
+            'items',
+            form.data.items.filter((_, itemIndex) => itemIndex !== index),
+        );
+    };
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         form.post('/gallery', {
             forceFormData: true,
             onSuccess: () => {
+                const count = form.data.items.length;
                 toast({
-                    title: 'Item gallery ditambahkan',
+                    title:
+                        count > 1
+                            ? `${count} item gallery ditambahkan`
+                            : 'Item gallery ditambahkan',
                     description: 'Data berhasil disimpan.',
                     variant: 'success',
                 });
@@ -74,95 +111,232 @@ export default function GalleryCreate() {
                     className="max-w-2xl space-y-6"
                     encType="multipart/form-data"
                 >
-                    <div className="grid gap-2">
-                        <Label htmlFor="title">Title</Label>
-                        <Input
-                            id="title"
-                            name="title"
-                            value={form.data.title}
-                            onChange={(event) =>
-                                form.setData('title', event.target.value)
-                            }
-                            placeholder="Judul item gallery"
-                            required
-                            aria-invalid={!!form.errors.title}
-                        />
-                        <InputError message={form.errors.title} />
+                    <div className="space-y-6">
+                        {form.data.items.map((item, index) => (
+                            <div
+                                key={index}
+                                className="space-y-4 rounded-lg border p-4"
+                            >
+                                <div className="flex items-center justify-between gap-2">
+                                    <h2 className="text-sm font-semibold">
+                                        Item {index + 1}
+                                    </h2>
+                                    {form.data.items.length > 1 && (
+                                        <Button
+                                            type="button"
+                                            variant="ghost"
+                                            onClick={() => removeRow(index)}
+                                        >
+                                            Hapus baris
+                                        </Button>
+                                    )}
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor={`title-${index}`}>
+                                        Title
+                                    </Label>
+                                    <Input
+                                        id={`title-${index}`}
+                                        value={item.title}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'items',
+                                                form.data.items.map(
+                                                    (entry, entryIndex) =>
+                                                        entryIndex === index
+                                                            ? {
+                                                                  ...entry,
+                                                                  title: event
+                                                                      .target
+                                                                      .value,
+                                                              }
+                                                            : entry,
+                                                ),
+                                            )
+                                        }
+                                        placeholder="Judul item gallery"
+                                        required
+                                        aria-invalid={
+                                            !!getError(
+                                                `items.${index}.title`,
+                                            )
+                                        }
+                                    />
+                                    <InputError
+                                        message={getError(
+                                            `items.${index}.title`,
+                                        )}
+                                    />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor={`description-${index}`}>
+                                        Description
+                                    </Label>
+                                    <Textarea
+                                        id={`description-${index}`}
+                                        value={item.description}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'items',
+                                                form.data.items.map(
+                                                    (entry, entryIndex) =>
+                                                        entryIndex === index
+                                                            ? {
+                                                                  ...entry,
+                                                                  description:
+                                                                      event
+                                                                          .target
+                                                                          .value,
+                                                              }
+                                                            : entry,
+                                                ),
+                                            )
+                                        }
+                                        placeholder="Deskripsikan item gallery..."
+                                        rows={4}
+                                        aria-invalid={
+                                            !!getError(
+                                                `items.${index}.description`,
+                                            )
+                                        }
+                                    />
+                                    <InputError
+                                        message={getError(
+                                            `items.${index}.description`,
+                                        )}
+                                    />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor={`image-${index}`}>
+                                        Image
+                                    </Label>
+                                    <Input
+                                        id={`image-${index}`}
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'items',
+                                                form.data.items.map(
+                                                    (entry, entryIndex) =>
+                                                        entryIndex === index
+                                                            ? {
+                                                                  ...entry,
+                                                                  image:
+                                                                      event
+                                                                          .currentTarget
+                                                                          .files?.[0] ??
+                                                                      null,
+                                                              }
+                                                            : entry,
+                                                ),
+                                            )
+                                        }
+                                        aria-invalid={
+                                            !!getError(
+                                                `items.${index}.image`,
+                                            )
+                                        }
+                                    />
+                                    <p className="text-xs text-muted-foreground">
+                                        Maksimum 2MB. Format gambar umum
+                                        didukung.
+                                    </p>
+                                    <InputError
+                                        message={getError(
+                                            `items.${index}.image`,
+                                        )}
+                                    />
+                                </div>
+
+                                <div className="grid gap-2">
+                                    <Label htmlFor={`order-${index}`}>
+                                        Order
+                                    </Label>
+                                    <Input
+                                        id={`order-${index}`}
+                                        type="number"
+                                        inputMode="numeric"
+                                        min={0}
+                                        value={item.order}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'items',
+                                                form.data.items.map(
+                                                    (entry, entryIndex) =>
+                                                        entryIndex === index
+                                                            ? {
+                                                                  ...entry,
+                                                                  order: event
+                                                                      .target
+                                                                      .value,
+                                                              }
+                                                            : entry,
+                                                ),
+                                            )
+                                        }
+                                        placeholder="Urutan tampil (opsional)"
+                                        aria-invalid={
+                                            !!getError(
+                                                `items.${index}.order`,
+                                            )
+                                        }
+                                    />
+                                    <InputError
+                                        message={getError(
+                                            `items.${index}.order`,
+                                        )}
+                                    />
+                                </div>
+
+                                <div className="flex items-center gap-2">
+                                    <Checkbox
+                                        id={`is_active-${index}`}
+                                        checked={item.is_active}
+                                        onCheckedChange={(checked) =>
+                                            form.setData(
+                                                'items',
+                                                form.data.items.map(
+                                                    (entry, entryIndex) =>
+                                                        entryIndex === index
+                                                            ? {
+                                                                  ...entry,
+                                                                  is_active:
+                                                                      checked ===
+                                                                      true,
+                                                              }
+                                                            : entry,
+                                                ),
+                                            )
+                                        }
+                                    />
+                                    <Label htmlFor={`is_active-${index}`}>
+                                        Aktifkan item
+                                    </Label>
+                                </div>
+                            </div>
+                        ))}
                     </div>
 
-                    <div className="grid gap-2">
-                        <Label htmlFor="description">Description</Label>
-                        <Textarea
-                            id="description"
-                            name="description"
-                            value={form.data.description}
-                            onChange={(event) =>
-                                form.setData('description', event.target.value)
-                            }
-                            placeholder="Deskripsikan item gallery..."
-                            rows={5}
-                            aria-invalid={!!form.errors.description}
-                        />
-                        <InputError message={form.errors.description} />
-                    </div>
-
-                    <div className="grid gap-2">
-                        <Label htmlFor="image">Image</Label>
-                        <Input
-                            id="image"
-                            name="image"
-                            type="file"
-                            accept="image/*"
-                            onChange={(event) =>
-                                form.setData(
-                                    'image',
-                                    event.currentTarget.files?.[0] ?? null,
-                                )
-                            }
-                            aria-invalid={!!form.errors.image}
-                        />
-                        <p className="text-xs text-muted-foreground">
-                            Maksimum 2MB. Format gambar umum didukung.
-                        </p>
-                        <InputError message={form.errors.image} />
-                    </div>
-
-                    <div className="grid gap-2">
-                        <Label htmlFor="order">Order</Label>
-                        <Input
-                            id="order"
-                            name="order"
-                            type="number"
-                            inputMode="numeric"
-                            min={0}
-                            value={form.data.order}
-                            onChange={(event) =>
-                                form.setData('order', event.target.value)
-                            }
-                            placeholder="Urutan tampil (opsional)"
-                            aria-invalid={!!form.errors.order}
-                        />
-                        <InputError message={form.errors.order} />
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <Checkbox
-                            id="is_active"
-                            checked={form.data.is_active}
-                            onCheckedChange={(checked) =>
-                                form.setData('is_active', checked === true)
-                            }
-                        />
-                        <Label htmlFor="is_active">Aktifkan item</Label>
-                    </div>
-
-                    <div className="flex items-center gap-3">
-                        <Button type="submit" disabled={form.processing}>
-                            Simpan
+                    <div className="flex items-center justify-between gap-3">
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            onClick={addRow}
+                        >
+                            Tambah baris
                         </Button>
-                        <Button variant="secondary" type="button" asChild>
-                            <Link href="/gallery">Batal</Link>
-                        </Button>
+                        <div className="flex items-center gap-3">
+                            <Button type="submit" disabled={form.processing}>
+                                Simpan
+                            </Button>
+                            <Button variant="secondary" type="button" asChild>
+                                <Link href="/gallery">Batal</Link>
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </div>

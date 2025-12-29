@@ -50,6 +50,47 @@ class GalleryController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        if ($request->has('items')) {
+            $payload = $request->validate([
+                'items' => ['required', 'array', 'min:1'],
+                'items.*.title' => ['required', 'string', 'max:255'],
+                'items.*.description' => ['nullable', 'string'],
+                'items.*.image' => ['nullable', 'image', 'max:2048'],
+                'items.*.is_active' => ['nullable', 'boolean'],
+                'items.*.order' => ['nullable', 'integer', 'min:0'],
+            ]);
+
+            $items = $payload['items'];
+            $nextOrder = Gallery::max('order') ?? 0;
+
+            foreach ($items as $item) {
+                $data = [
+                    'title' => $item['title'],
+                    'description' => $item['description'] ?? null,
+                    'is_active' => filter_var(
+                        $item['is_active'] ?? false,
+                        FILTER_VALIDATE_BOOLEAN,
+                    ),
+                    'order' => $item['order'] ?? null,
+                ];
+
+                if ($data['order'] === null) {
+                    $nextOrder++;
+                    $data['order'] = $nextOrder;
+                } else {
+                    $data['order'] = (int) $data['order'];
+                }
+
+                if (isset($item['image'])) {
+                    $data['image'] = $item['image']->store('galleries', 'public');
+                }
+
+                Gallery::create($data);
+            }
+
+            return to_route('galleries.index');
+        }
+
         $data = $request->validate([
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
@@ -59,6 +100,9 @@ class GalleryController extends Controller
         ]);
 
         $data['is_active'] = $request->boolean('is_active');
+        if ($data['order'] === null) {
+            $data['order'] = (Gallery::max('order') ?? 0) + 1;
+        }
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('galleries', 'public');
@@ -102,6 +146,9 @@ class GalleryController extends Controller
         ]);
 
         $data['is_active'] = $request->boolean('is_active');
+        if ($data['order'] === null) {
+            $data['order'] = $gallery->order ?? ((Gallery::max('order') ?? 0) + 1);
+        }
 
         if ($request->hasFile('image')) {
             if ($gallery->image) {

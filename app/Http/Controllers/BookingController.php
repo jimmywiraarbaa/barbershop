@@ -16,12 +16,17 @@ class BookingController extends Controller
      */
     public function index(): Response
     {
+        $capsters = Capster::query()
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
         $bookings = Booking::query()
             ->with('capster:id,name')
             ->latest()
             ->get()
             ->map(fn (Booking $booking) => [
                 'id' => $booking->id,
+                'capsterId' => $booking->capster_id,
                 'capsterName' => $booking->capster?->name,
                 'name' => $booking->name,
                 'email' => $booking->email,
@@ -32,6 +37,7 @@ class BookingController extends Controller
 
         return Inertia::render('bookings/index', [
             'bookings' => $bookings,
+            'capsters' => $capsters,
         ]);
     }
 

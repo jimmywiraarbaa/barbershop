@@ -5,6 +5,7 @@ import { BookingRowActions } from '@/modules/booking/row-actions';
 
 export type BookingRow = {
     id: number;
+    capsterId: number;
     capsterName: string | null;
     name: string | null;
     email: string | null;

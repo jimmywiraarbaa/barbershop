@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CapsterController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HairModelController;
@@ -30,6 +31,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('capsters.update');
     Route::delete('capster/{capster}', [CapsterController::class, 'destroy'])
         ->name('capsters.destroy');
+
+    Route::get('booking', [BookingController::class, 'index'])
+        ->name('bookings.index');
+    Route::get('booking/create', [BookingController::class, 'create'])
+        ->name('bookings.create');
+    Route::post('booking', [BookingController::class, 'store'])
+        ->name('bookings.store');
+    Route::get('booking/{booking}/edit', [BookingController::class, 'edit'])
+        ->name('bookings.edit');
+    Route::put('booking/{booking}', [BookingController::class, 'update'])
+        ->name('bookings.update');
+    Route::delete('booking/{booking}', [BookingController::class, 'destroy'])
+        ->name('bookings.destroy');
 
     Route::get('gallery', [GalleryController::class, 'index'])
         ->name('galleries.index');

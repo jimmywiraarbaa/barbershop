@@ -13,7 +13,15 @@ import {
 import { dashboard } from '@/routes';
 import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
-import { BookOpen, Folder, Image, LayoutGrid, Scissors, UserRound } from 'lucide-react';
+import {
+    BookOpen,
+    CalendarDays,
+    Folder,
+    Image,
+    LayoutGrid,
+    Scissors,
+    UserRound,
+} from 'lucide-react';
 import AppLogo from './app-logo';
 
 const mainNavItems: NavItem[] = [
@@ -26,6 +34,11 @@ const mainNavItems: NavItem[] = [
         title: 'Capster',
         href: '/capster',
         icon: UserRound,
+    },
+    {
+        title: 'Booking',
+        href: '/booking',
+        icon: CalendarDays,
     },
     {
         title: 'Gallery',

@@ -7,9 +7,20 @@ import {
     CardHeader,
     CardTitle,
 } from '@/components/ui/card';
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogDescription,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle,
+} from '@/components/ui/dialog';
+import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
+import { useState } from 'react';
 
 type HairModel = {
     id: number;
@@ -30,13 +41,27 @@ export default function HairModelsIndex({
 }: {
     hairModels: HairModel[];
 }) {
-    const handleDelete = (id: number) => {
-        if (! window.confirm('Hapus model rambut ini?')) {
+    const [deleteTarget, setDeleteTarget] = useState<HairModel | null>(null);
+    const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const { toast } = useToast();
+
+    const handleDelete = () => {
+        const target = deleteTarget;
+        if (! target) {
             return;
         }
 
-        router.delete(`/model-rambut/${id}`, {
+        router.delete(`/model-rambut/${target.id}`, {
             preserveScroll: true,
+            onSuccess: () => {
+                setIsDeleteOpen(false);
+                setDeleteTarget(null);
+                toast({
+                    title: 'Model rambut dihapus',
+                    description: `"${target.title}" berhasil dihapus.`,
+                    variant: 'success',
+                });
+            },
         });
     };
 
@@ -109,9 +134,10 @@ export default function HairModelsIndex({
                                     </Button>
                                     <Button
                                         variant="destructive"
-                                        onClick={() =>
-                                            handleDelete(hairModel.id)
-                                        }
+                                        onClick={() => {
+                                            setDeleteTarget(hairModel);
+                                            setIsDeleteOpen(true);
+                                        }}
                                     >
                                         Hapus
                                     </Button>
@@ -121,6 +147,34 @@ export default function HairModelsIndex({
                     </div>
                 )}
             </div>
+            <Dialog
+                open={isDeleteOpen}
+                onOpenChange={(open) => {
+                    setIsDeleteOpen(open);
+                    if (! open) {
+                        setDeleteTarget(null);
+                    }
+                }}
+            >
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>Hapus model rambut?</DialogTitle>
+                        <DialogDescription>
+                            {deleteTarget
+                                ? `Model "${deleteTarget.title}" akan dihapus.`
+                                : 'Data akan dihapus.'}
+                        </DialogDescription>
+                    </DialogHeader>
+                    <DialogFooter>
+                        <DialogClose asChild>
+                            <Button variant="secondary">Batal</Button>
+                        </DialogClose>
+                        <Button variant="destructive" onClick={handleDelete}>
+                            Hapus
+                        </Button>
+                    </DialogFooter>
+                </DialogContent>
+            </Dialog>
         </AppLayout>
     );
 }

@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -20,6 +21,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function HairModelsCreate() {
+    const { toast } = useToast();
     const form = useForm<{
         title: string;
         description: string;
@@ -34,6 +36,13 @@ export default function HairModelsCreate() {
         event.preventDefault();
         form.post('/model-rambut', {
             forceFormData: true,
+            onSuccess: () => {
+                toast({
+                    title: 'Model rambut ditambahkan',
+                    description: 'Data berhasil disimpan.',
+                    variant: 'success',
+                });
+            },
         });
     };
 

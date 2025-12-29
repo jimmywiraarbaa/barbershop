@@ -90,6 +90,15 @@ export default function BookingsIndex({
                     columns={bookingColumns}
                     data={filteredBookings}
                     emptyMessage="Belum ada data booking."
+                    searchableKeys={[
+                        'capsterName',
+                        'name',
+                        'email',
+                        'whatsapp',
+                        'notes',
+                    ]}
+                    searchPlaceholder="Cari nama, email, WA..."
+                    searchClassName="h-9 w-[220px]"
                 />
             </div>
         </AppLayout>

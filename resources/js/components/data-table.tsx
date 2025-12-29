@@ -5,8 +5,10 @@ import {
     getPaginationRowModel,
     useReactTable,
 } from '@tanstack/react-table';
+import { useMemo, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import {
     Table,
     TableBody,
@@ -20,15 +22,49 @@ interface DataTableProps<TData, TValue> {
     columns: ColumnDef<TData, TValue>[];
     data: TData[];
     emptyMessage?: string;
+    searchableKeys?: Array<keyof TData>;
+    searchPlaceholder?: string;
+    searchValue?: string;
+    onSearchValueChange?: (value: string) => void;
+    searchClassName?: string;
 }
 
 export function DataTable<TData, TValue>({
     columns,
     data,
     emptyMessage = 'Belum ada data.',
+    searchableKeys,
+    searchPlaceholder = 'Cari data...',
+    searchValue,
+    onSearchValueChange,
+    searchClassName,
 }: DataTableProps<TData, TValue>) {
+    const [internalSearch, setInternalSearch] = useState('');
+    const activeSearchValue = searchValue ?? internalSearch;
+    const setSearchValue = onSearchValueChange ?? setInternalSearch;
+    const filteredData = useMemo(() => {
+        if (! searchableKeys?.length) {
+            return data;
+        }
+
+        const query = activeSearchValue.trim().toLowerCase();
+        if (! query) {
+            return data;
+        }
+
+        return data.filter((row) =>
+            searchableKeys.some((key) => {
+                const value = row[key];
+                if (value === null || value === undefined) {
+                    return false;
+                }
+
+                return String(value).toLowerCase().includes(query);
+            }),
+        );
+    }, [activeSearchValue, data, searchableKeys]);
     const table = useReactTable({
-        data,
+        data: filteredData,
         columns,
         getCoreRowModel: getCoreRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
@@ -36,6 +72,18 @@ export function DataTable<TData, TValue>({
 
     return (
         <div className="space-y-4">
+            {searchableKeys?.length ? (
+                <div className="flex items-center">
+                    <Input
+                        value={activeSearchValue}
+                        onChange={(event) =>
+                            setSearchValue(event.target.value)
+                        }
+                        placeholder={searchPlaceholder}
+                        className={searchClassName ?? 'h-9 w-[220px]'}
+                    />
+                </div>
+            ) : null}
             <div className="rounded-md border">
                 <Table>
                     <TableHeader>

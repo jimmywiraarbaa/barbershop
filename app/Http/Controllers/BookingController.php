@@ -54,12 +54,31 @@ class BookingController extends Controller
      */
     public function store(Request $request): RedirectResponse
     {
+        $requireCustomerFields = ! $request->user();
+
         $data = $request->validate([
             'capster_id' => ['required', 'integer', 'exists:capsters,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'string', 'email', 'max:255'],
-            'whatsapp' => ['required', 'string', 'max:30', 'regex:/^\d+$/'],
-            'notes' => ['nullable', 'string'],
+            'name' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+                'max:255',
+            ],
+            'email' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+                'email',
+                'max:255',
+            ],
+            'whatsapp' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+                'max:30',
+                'regex:/^\d+$/',
+            ],
+            'notes' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+            ],
         ]);
 
         Booking::create($data);
@@ -94,12 +113,31 @@ class BookingController extends Controller
      */
     public function update(Request $request, Booking $booking): RedirectResponse
     {
+        $requireCustomerFields = ! $request->user();
+
         $data = $request->validate([
             'capster_id' => ['required', 'integer', 'exists:capsters,id'],
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['nullable', 'string', 'email', 'max:255'],
-            'whatsapp' => ['required', 'string', 'max:30', 'regex:/^\d+$/'],
-            'notes' => ['nullable', 'string'],
+            'name' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+                'max:255',
+            ],
+            'email' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+                'email',
+                'max:255',
+            ],
+            'whatsapp' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+                'max:30',
+                'regex:/^\d+$/',
+            ],
+            'notes' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'string',
+            ],
         ]);
 
         $booking->update($data);

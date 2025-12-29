@@ -122,7 +122,6 @@ export default function BookingCreate({
                                 form.setData('name', event.target.value)
                             }
                             placeholder="Nama pelanggan"
-                            required
                             aria-invalid={!!form.errors.name}
                         />
                         <InputError message={form.errors.name} />
@@ -157,7 +156,6 @@ export default function BookingCreate({
                                 form.setData('whatsapp', event.target.value)
                             }
                             placeholder="62xxxxxxxxxx"
-                            required
                             aria-invalid={!!form.errors.whatsapp}
                         />
                         <InputError message={form.errors.whatsapp} />

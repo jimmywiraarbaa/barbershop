@@ -107,7 +107,7 @@ export default function BookingsIndex({
                             <Card key={booking.id} className="h-full">
                                 <CardHeader className="space-y-1">
                                     <CardTitle className="text-lg">
-                                        {booking.name}
+                                        {booking.name || 'Tanpa Nama'}
                                     </CardTitle>
                                     <CardDescription>
                                         Capster:{' '}
@@ -117,7 +117,9 @@ export default function BookingsIndex({
                                 </CardHeader>
                                 <CardContent className="space-y-2 text-sm text-muted-foreground">
                                     <div>Email: {booking.email || '-'}</div>
-                                    <div>WhatsApp: {booking.whatsapp}</div>
+                                    <div>
+                                        WhatsApp: {booking.whatsapp || '-'}
+                                    </div>
                                     {booking.notes ? (
                                         <div className="line-clamp-3">
                                             Keterangan: {booking.notes}

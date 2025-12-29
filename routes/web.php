@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CapsterController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HairModelController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -29,6 +30,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('capsters.update');
     Route::delete('capster/{capster}', [CapsterController::class, 'destroy'])
         ->name('capsters.destroy');
+
+    Route::get('gallery', [GalleryController::class, 'index'])
+        ->name('galleries.index');
+    Route::get('gallery/create', [GalleryController::class, 'create'])
+        ->name('galleries.create');
+    Route::post('gallery', [GalleryController::class, 'store'])
+        ->name('galleries.store');
+    Route::get('gallery/{gallery}/edit', [GalleryController::class, 'edit'])
+        ->name('galleries.edit');
+    Route::put('gallery/{gallery}', [GalleryController::class, 'update'])
+        ->name('galleries.update');
+    Route::delete('gallery/{gallery}', [GalleryController::class, 'destroy'])
+        ->name('galleries.destroy');
 
     Route::get('model-rambut', [HairModelController::class, 'index'])
         ->name('hair-models.index');

@@ -114,17 +114,19 @@ export default function HairModelsEdit({
 
                     <div className="grid gap-2">
                         <Label htmlFor="image">Image</Label>
-                        {hairModel.imageUrl ? (
-                            <img
-                                src={hairModel.imageUrl}
-                                alt={hairModel.title}
-                                className="h-40 w-full rounded-md object-cover"
-                            />
-                        ) : (
-                            <div className="flex h-40 w-full items-center justify-center rounded-md border border-dashed text-sm text-muted-foreground">
-                                Belum ada gambar
-                            </div>
-                        )}
+                        <div className="aspect-square w-full overflow-hidden rounded-md border border-dashed bg-muted/30">
+                            {hairModel.imageUrl ? (
+                                <img
+                                    src={hairModel.imageUrl}
+                                    alt={hairModel.title}
+                                    className="h-full w-full object-cover"
+                                />
+                            ) : (
+                                <div className="flex h-full w-full items-center justify-center text-sm text-muted-foreground">
+                                    Belum ada gambar
+                                </div>
+                            )}
+                        </div>
                         <Input
                             id="image"
                             name="image"

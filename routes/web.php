@@ -4,6 +4,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CapsterController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HairModelController;
+use App\Http\Controllers\WorkHourController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -70,6 +71,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('hair-models.update');
     Route::delete('model-rambut/{hairModel}', [HairModelController::class, 'destroy'])
         ->name('hair-models.destroy');
+
+    Route::get('jam-kerja', [WorkHourController::class, 'index'])
+        ->name('work-hours.index');
+    Route::get('jam-kerja/create', [WorkHourController::class, 'create'])
+        ->name('work-hours.create');
+    Route::post('jam-kerja', [WorkHourController::class, 'store'])
+        ->name('work-hours.store');
+    Route::get('jam-kerja/{workHour}/edit', [WorkHourController::class, 'edit'])
+        ->name('work-hours.edit');
+    Route::put('jam-kerja/{workHour}', [WorkHourController::class, 'update'])
+        ->name('work-hours.update');
+    Route::delete('jam-kerja/{workHour}', [WorkHourController::class, 'destroy'])
+        ->name('work-hours.destroy');
 });
 
 require __DIR__.'/settings.php';

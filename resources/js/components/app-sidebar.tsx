@@ -16,6 +16,7 @@ import { Link } from '@inertiajs/react';
 import {
     BookOpen,
     CalendarDays,
+    Clock,
     Folder,
     Image,
     LayoutGrid,
@@ -39,6 +40,11 @@ const mainNavItems: NavItem[] = [
         title: 'Booking',
         href: '/booking',
         icon: CalendarDays,
+    },
+    {
+        title: 'Jam Kerja',
+        href: '/jam-kerja',
+        icon: Clock,
     },
     {
         title: 'Gallery',

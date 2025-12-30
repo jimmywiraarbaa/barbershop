@@ -16,11 +16,12 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
+import { Input } from '@/components/ui/input';
 import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 type Capster = {
     id: number;
@@ -42,7 +43,27 @@ const breadcrumbs: BreadcrumbItem[] = [
 export default function CapstersIndex({ capsters }: { capsters: Capster[] }) {
     const [deleteTarget, setDeleteTarget] = useState<Capster | null>(null);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
     const { toast } = useToast();
+    const filteredCapsters = useMemo(() => {
+        const query = searchTerm.trim().toLowerCase();
+        if (! query) {
+            return capsters;
+        }
+
+        return capsters.filter((capster) => {
+            const values = [
+                capster.name,
+                capster.whatsapp,
+                capster.workHourName,
+                capster.workHourId ? String(capster.workHourId) : null,
+            ];
+
+            return values.some((value) =>
+                value ? value.toLowerCase().includes(query) : false,
+            );
+        });
+    }, [capsters, searchTerm]);
 
     const handleDelete = () => {
         const target = deleteTarget;
@@ -74,10 +95,22 @@ export default function CapstersIndex({ capsters }: { capsters: Capster[] }) {
                         <p className="text-sm text-muted-foreground">
                             Kelola data capster yang tersedia.
                         </p>
+                        <div className="mt-4">
+                            <Input
+                                value={searchTerm}
+                                onChange={(event) =>
+                                    setSearchTerm(event.target.value)
+                                }
+                                placeholder="Cari nama, WA, jam kerja..."
+                                className="h-9 w-[220px]"
+                            />
+                        </div>
                     </div>
-                    <Button asChild>
-                        <Link href="/capster/create">Tambah Capster</Link>
-                    </Button>
+                    <div className="flex flex-wrap items-center gap-3">
+                        <Button asChild>
+                            <Link href="/capster/create">Tambah Capster</Link>
+                        </Button>
+                    </div>
                 </div>
 
                 {capsters.length === 0 ? (
@@ -97,9 +130,18 @@ export default function CapstersIndex({ capsters }: { capsters: Capster[] }) {
                             </Button>
                         </CardFooter>
                     </Card>
+                ) : filteredCapsters.length === 0 ? (
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>Data tidak ditemukan</CardTitle>
+                            <CardDescription>
+                                Coba kata kunci lain untuk mencari capster.
+                            </CardDescription>
+                        </CardHeader>
+                    </Card>
                 ) : (
                     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-                        {capsters.map((capster) => (
+                        {filteredCapsters.map((capster) => (
                             <Card key={capster.id} className="h-full">
                                 <CardHeader className="space-y-1">
                                     <CardTitle className="text-lg">
@@ -123,12 +165,6 @@ export default function CapstersIndex({ capsters }: { capsters: Capster[] }) {
                                                 Belum ada gambar
                                             </div>
                                         )}
-                                    </div>
-                                    <div className="text-sm text-muted-foreground">
-                                        User ID:{' '}
-                                        {capster.userId
-                                            ? capster.userId
-                                            : 'Belum terhubung'}
                                     </div>
                                     <div className="text-sm text-muted-foreground">
                                         Jam Kerja:{' '}

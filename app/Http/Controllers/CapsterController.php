@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Capster;
 use App\Models\User;
+use App\Models\WorkHour;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -20,6 +21,7 @@ class CapsterController extends Controller
     public function index(): Response
     {
         $capsters = Capster::query()
+            ->with('workHour')
             ->latest()
             ->get()
             ->map(fn (Capster $capster) => [
@@ -27,6 +29,8 @@ class CapsterController extends Controller
                 'name' => $capster->name,
                 'whatsapp' => $capster->whatsapp,
                 'userId' => $capster->user_id,
+                'workHourId' => $capster->work_hour_id,
+                'workHourName' => $capster->workHour?->name,
                 'imageUrl' => $capster->image
                     ? '/storage/'.$capster->image
                     : null,
@@ -42,7 +46,17 @@ class CapsterController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('capsters/create');
+        $workHours = WorkHour::query()
+            ->orderBy('name')
+            ->get()
+            ->map(fn (WorkHour $workHour) => [
+                'id' => $workHour->id,
+                'name' => $workHour->name,
+            ]);
+
+        return Inertia::render('capsters/create', [
+            'workHours' => $workHours,
+        ]);
     }
 
     /**
@@ -53,6 +67,7 @@ class CapsterController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'whatsapp' => ['nullable', 'string', 'max:30', 'regex:/^\d+$/'],
+            'work_hour_id' => ['nullable', 'integer', 'exists:work_hours,id'],
             'image' => ['nullable', 'image', 'max:2048'],
         ]);
 
@@ -86,16 +101,26 @@ class CapsterController extends Controller
      */
     public function edit(Capster $capster): Response
     {
+        $workHours = WorkHour::query()
+            ->orderBy('name')
+            ->get()
+            ->map(fn (WorkHour $workHour) => [
+                'id' => $workHour->id,
+                'name' => $workHour->name,
+            ]);
+
         return Inertia::render('capsters/edit', [
             'capster' => [
                 'id' => $capster->id,
                 'name' => $capster->name,
                 'whatsapp' => $capster->whatsapp,
                 'userId' => $capster->user_id,
+                'workHourId' => $capster->work_hour_id,
                 'imageUrl' => $capster->image
                     ? '/storage/'.$capster->image
                     : null,
             ],
+            'workHours' => $workHours,
         ]);
     }
 
@@ -107,6 +132,7 @@ class CapsterController extends Controller
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'whatsapp' => ['nullable', 'string', 'max:30', 'regex:/^\d+$/'],
+            'work_hour_id' => ['nullable', 'integer', 'exists:work_hours,id'],
             'image' => ['nullable', 'image', 'max:2048'],
         ]);
 

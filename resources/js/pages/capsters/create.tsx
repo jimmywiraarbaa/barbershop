@@ -3,6 +3,13 @@ import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
@@ -20,11 +27,21 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function CapstersCreate() {
+type WorkHourOption = {
+    id: number;
+    name: string;
+};
+
+export default function CapstersCreate({
+    workHours,
+}: {
+    workHours: WorkHourOption[];
+}) {
     const { toast } = useToast();
     const form = useForm<{
         name: string;
         whatsapp: string;
+        work_hour_id: string;
         add_user: boolean;
         user_email: string;
         user_password: string;
@@ -33,6 +50,7 @@ export default function CapstersCreate() {
     }>({
         name: '',
         whatsapp: '',
+        work_hour_id: '',
         add_user: false,
         user_email: '',
         user_password: '',
@@ -109,6 +127,34 @@ export default function CapstersCreate() {
                             aria-invalid={!!form.errors.whatsapp}
                         />
                         <InputError message={form.errors.whatsapp} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="work_hour_id">Jam Kerja</Label>
+                        <Select
+                            value={form.data.work_hour_id}
+                            onValueChange={(value) =>
+                                form.setData('work_hour_id', value)
+                            }
+                        >
+                            <SelectTrigger
+                                id="work_hour_id"
+                                aria-invalid={!!form.errors.work_hour_id}
+                            >
+                                <SelectValue placeholder="Pilih jam kerja" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {workHours.map((workHour) => (
+                                    <SelectItem
+                                        key={workHour.id}
+                                        value={String(workHour.id)}
+                                    >
+                                        {workHour.name}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                        <InputError message={form.errors.work_hour_id} />
                     </div>
 
                     <div className="flex items-center gap-2">

@@ -27,6 +27,8 @@ type Capster = {
     name: string;
     whatsapp: string | null;
     userId: number | null;
+    workHourId: number | null;
+    workHourName: string | null;
     imageUrl: string | null;
 };
 
@@ -127,6 +129,14 @@ export default function CapstersIndex({ capsters }: { capsters: Capster[] }) {
                                         {capster.userId
                                             ? capster.userId
                                             : 'Belum terhubung'}
+                                    </div>
+                                    <div className="text-sm text-muted-foreground">
+                                        Jam Kerja:{' '}
+                                        {capster.workHourName
+                                            ? capster.workHourName
+                                            : capster.workHourId
+                                              ? capster.workHourId
+                                              : 'Belum dipilih'}
                                     </div>
                                 </CardContent>
                                 <CardFooter className="gap-2">

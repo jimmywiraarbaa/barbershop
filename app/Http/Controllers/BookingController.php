@@ -35,6 +35,7 @@ class BookingController extends Controller
                 'priceId' => $booking->price_id,
                 'priceName' => $booking->price?->name,
                 'priceAmount' => $booking->price?->price,
+                'status' => $booking->status,
                 'name' => $booking->name,
                 'email' => $booking->email,
                 'whatsapp' => $booking->whatsapp,
@@ -112,6 +113,7 @@ class BookingController extends Controller
                 'integer',
                 'exists:prices,id',
             ],
+            'status' => ['nullable', 'string', 'in:waiting,selesai'],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',
                 'string',
@@ -134,6 +136,8 @@ class BookingController extends Controller
                 'string',
             ],
         ]);
+
+        $data['status'] = $data['status'] ?? 'waiting';
 
         Booking::create($data);
 
@@ -191,6 +195,7 @@ class BookingController extends Controller
                 'capsterId' => $booking->capster_id,
                 'modelRambutId' => $booking->model_rambut_id,
                 'priceId' => $booking->price_id,
+                'status' => $booking->status,
                 'name' => $booking->name,
                 'email' => $booking->email,
                 'whatsapp' => $booking->whatsapp,
@@ -214,6 +219,7 @@ class BookingController extends Controller
                 'integer',
                 'exists:prices,id',
             ],
+            'status' => ['nullable', 'string', 'in:waiting,selesai'],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',
                 'string',
@@ -236,6 +242,8 @@ class BookingController extends Controller
                 'string',
             ],
         ]);
+
+        $data['status'] = $data['status'] ?? $booking->status ?? 'waiting';
 
         $booking->update($data);
 

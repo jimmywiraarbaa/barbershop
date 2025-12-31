@@ -12,11 +12,26 @@ export type BookingRow = {
     priceId: number | null;
     priceName: string | null;
     priceAmount: number | null;
+    status: 'waiting' | 'selesai' | null;
     name: string | null;
     email: string | null;
     whatsapp: string | null;
     notes: string | null;
     createdAt: string | null;
+};
+
+const statusLabel = (status: BookingRow['status']) => {
+    if (status === 'selesai') {
+        return {
+            label: 'Selesai',
+            className: 'bg-emerald-500 text-white border-emerald-500',
+        };
+    }
+
+    return {
+        label: 'Waiting',
+        className: 'bg-orange-500 text-white border-orange-500',
+    };
 };
 
 const formatCurrency = (value: number) =>
@@ -84,13 +99,16 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
             ),
     },
     {
-        accessorKey: 'createdAt',
+        accessorKey: 'status',
         header: 'Status',
-        cell: ({ row }) => (
-            <Badge variant="secondary">
-                {row.original.createdAt ? 'Tersimpan' : 'Draft'}
-            </Badge>
-        ),
+        cell: ({ row }) => {
+            const { label, className } = statusLabel(row.original.status);
+            return (
+                <Badge variant="default" className={className}>
+                    {label}
+                </Badge>
+            );
+        },
     },
     {
         id: 'actions',

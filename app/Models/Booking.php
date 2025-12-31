@@ -15,6 +15,7 @@ class Booking extends BaseModel
         'capster_id',
         'model_rambut_id',
         'price_id',
+        'status',
         'name',
         'email',
         'whatsapp',

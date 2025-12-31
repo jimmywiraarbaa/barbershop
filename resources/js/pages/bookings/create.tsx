@@ -93,6 +93,7 @@ export default function BookingCreate({
         capster_id: '',
         model_rambut_id: '',
         price_id: '',
+        status: 'waiting',
         name: '',
         email: '',
         whatsapp: '',
@@ -291,6 +292,29 @@ export default function BookingCreate({
                             </SelectContent>
                         </Select>
                         <InputError message={form.errors.price_id} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="status">Status</Label>
+                        <Select
+                            value={form.data.status}
+                            onValueChange={(value) =>
+                                form.setData('status', value)
+                            }
+                        >
+                            <SelectTrigger
+                                id="status"
+                                aria-invalid={!!form.errors.status}
+                                className="h-12"
+                            >
+                                <SelectValue placeholder="Pilih status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="waiting">Waiting</SelectItem>
+                                <SelectItem value="selesai">Selesai</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <InputError message={form.errors.status} />
                     </div>
 
                     <div className="grid gap-2">

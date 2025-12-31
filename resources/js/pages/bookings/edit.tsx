@@ -44,6 +44,7 @@ type Booking = {
     capsterId: number;
     modelRambutId: number | null;
     priceId: number | null;
+    status: 'waiting' | 'selesai' | null;
     name: string;
     email: string | null;
     whatsapp: string;
@@ -97,6 +98,7 @@ export default function BookingEdit({
             ? String(booking.modelRambutId)
             : '',
         price_id: booking.priceId ? String(booking.priceId) : '',
+        status: booking.status ?? 'waiting',
         name: booking.name ?? '',
         email: booking.email ?? '',
         whatsapp: booking.whatsapp ?? '',
@@ -306,6 +308,29 @@ export default function BookingEdit({
                             </SelectContent>
                         </Select>
                         <InputError message={form.errors.price_id} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="status">Status</Label>
+                        <Select
+                            value={form.data.status}
+                            onValueChange={(value) =>
+                                form.setData('status', value)
+                            }
+                        >
+                            <SelectTrigger
+                                id="status"
+                                aria-invalid={!!form.errors.status}
+                                className="h-12"
+                            >
+                                <SelectValue placeholder="Pilih status" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="waiting">Waiting</SelectItem>
+                                <SelectItem value="selesai">Selesai</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <InputError message={form.errors.status} />
                     </div>
 
                     <div className="grid gap-2">

@@ -1,3 +1,4 @@
+import { ImageCropInput } from '@/components/image-crop-input';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,6 +9,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -22,6 +24,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function HairModelsCreate() {
     const { toast } = useToast();
+    const [isCropping, setIsCropping] = useState(false);
     const form = useForm<{
         title: string;
         description: string;
@@ -102,34 +105,35 @@ export default function HairModelsCreate() {
                     </div>
 
                     <div className="grid gap-2">
-                        <Label htmlFor="image">Image</Label>
-                        <Input
+                        <ImageCropInput
                             id="image"
-                            name="image"
-                            type="file"
-                            accept="image/*"
-                            onChange={(event) =>
-                                form.setData(
-                                    'image',
-                                    event.currentTarget.files?.[0] ?? null,
-                                )
-                            }
-                            aria-invalid={!!form.errors.image}
+                            label="Image"
+                            value={form.data.image}
+                            onChange={(file) => form.setData('image', file)}
+                            helperText="Maksimum 2MB. Format gambar umum didukung."
+                            onPendingChange={setIsCropping}
+                            ariaInvalid={!!form.errors.image}
+                            frameClassName="max-w-[320px]"
                         />
-                        <p className="text-xs text-muted-foreground">
-                            Maksimum 2MB. Format gambar umum didukung.
-                        </p>
                         <InputError message={form.errors.image} />
                     </div>
 
                     <div className="flex items-center gap-3">
-                        <Button type="submit" disabled={form.processing}>
+                        <Button
+                            type="submit"
+                            disabled={form.processing || isCropping}
+                        >
                             Simpan
                         </Button>
                         <Button variant="secondary" type="button" asChild>
                             <Link href="/model-rambut">Batal</Link>
                         </Button>
                     </div>
+                    {isCropping ? (
+                        <p className="text-xs text-muted-foreground">
+                            Simpan crop terlebih dulu sebelum submit.
+                        </p>
+                    ) : null}
                 </form>
             </div>
         </AppLayout>

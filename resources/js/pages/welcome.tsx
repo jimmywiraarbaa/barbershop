@@ -5,16 +5,16 @@ import { Head, Link, usePage } from '@inertiajs/react';
 const navLinks = [
     { label: 'Home', href: '#top' },
     { label: 'Services', href: '#services' },
-    { label: 'Find Us', href: '#map' },
-    { label: 'Testimonials', href: '#testimonials' },
-    { label: 'Team', href: '#team' },
+    // { label: 'Find Us', href: '#map' },
+    // { label: 'Testimonials', href: '#testimonials' },
+    { label: 'Capster', href: '#team' },
     { label: 'Contact', href: '#contact' },
 ];
 
 const stats = [
     { label: 'Capsters', value: '4' },
-    { label: 'Average session', value: '35 min' },
-    // { label: 'Premium rating', value: '4.9/5' },
+    // { label: 'Average session', value: '35 min' },
+    { label: 'Senin - Minggu', value: '09.00 - 23.00' },
 ];
 
 const services = [

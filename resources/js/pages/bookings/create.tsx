@@ -19,6 +19,18 @@ import type { FormEvent } from 'react';
 type CapsterOption = {
     id: number;
     name: string;
+    imageUrl: string | null;
+    workHourName?: string | null;
+    workHourDayStart?: string | null;
+    workHourDayEnd?: string | null;
+    workHourTimeStart?: string | null;
+    workHourTimeEnd?: string | null;
+};
+
+type HairModelOption = {
+    id: number;
+    title: string;
+    imageUrl: string | null;
 };
 
 const breadcrumbs: BreadcrumbItem[] = [
@@ -32,14 +44,39 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
+const getInitials = (value: string) =>
+    value
+        .split(' ')
+        .filter(Boolean)
+        .map((word) => word[0])
+        .join('')
+        .slice(0, 2)
+        .toUpperCase();
+
+const formatShift = (capster: CapsterOption) => {
+    const dayRange = [capster.workHourDayStart, capster.workHourDayEnd]
+        .filter(Boolean)
+        .join(' - ');
+    const timeRange = [capster.workHourTimeStart, capster.workHourTimeEnd]
+        .filter(Boolean)
+        .join(' - ');
+    const range = [dayRange, timeRange].filter(Boolean).join(' | ');
+    const labelParts = [capster.workHourName, range].filter(Boolean);
+
+    return labelParts.length ? labelParts.join(' · ') : 'Shift belum diatur';
+};
+
 export default function BookingCreate({
     capsters,
+    hairModels,
 }: {
     capsters: CapsterOption[];
+    hairModels: HairModelOption[];
 }) {
     const { toast } = useToast();
     const form = useForm({
         capster_id: '',
+        model_rambut_id: '',
         name: '',
         email: '',
         whatsapp: '',
@@ -89,6 +126,7 @@ export default function BookingCreate({
                             <SelectTrigger
                                 id="capster_id"
                                 aria-invalid={!!form.errors.capster_id}
+                                className="h-12"
                             >
                                 <SelectValue placeholder="Pilih capster" />
                             </SelectTrigger>
@@ -102,14 +140,92 @@ export default function BookingCreate({
                                         <SelectItem
                                             key={capster.id}
                                             value={String(capster.id)}
+                                            textValue={capster.name}
                                         >
-                                            {capster.name}
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted/40 text-[10px] font-semibold text-muted-foreground">
+                                                    {capster.imageUrl ? (
+                                                        <img
+                                                            src={capster.imageUrl}
+                                                            alt={capster.name}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        getInitials(capster.name)
+                                                    )}
+                                                </div>
+                                                <div className="space-y-0.5">
+                                                    <p className="text-sm font-medium">
+                                                        {capster.name}
+                                                    </p>
+                                                    <p className="text-xs text-muted-foreground">
+                                                        {formatShift(capster)}
+                                                    </p>
+                                                </div>
+                                            </div>
                                         </SelectItem>
                                     ))
                                 )}
                             </SelectContent>
                         </Select>
                         <InputError message={form.errors.capster_id} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="model_rambut_id">Model Rambut</Label>
+                        <Select
+                            value={form.data.model_rambut_id}
+                            onValueChange={(value) =>
+                                form.setData(
+                                    'model_rambut_id',
+                                    value === 'none' ? '' : value,
+                                )
+                            }
+                        >
+                            <SelectTrigger
+                                id="model_rambut_id"
+                                aria-invalid={!!form.errors.model_rambut_id}
+                                className="h-12"
+                            >
+                                <SelectValue placeholder="Pilih model rambut (opsional)" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="none" textValue="Tanpa pilihan">
+                                    Tanpa pilihan
+                                </SelectItem>
+                                {hairModels.length === 0 ? (
+                                    <SelectItem value="-" disabled>
+                                        Belum ada model rambut
+                                    </SelectItem>
+                                ) : (
+                                    hairModels.map((model) => (
+                                        <SelectItem
+                                            key={model.id}
+                                            value={String(model.id)}
+                                            textValue={model.title}
+                                        >
+                                            <div className="flex items-center gap-3">
+                                                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted/40 text-[10px] font-semibold text-muted-foreground">
+                                                    {model.imageUrl ? (
+                                                        <img
+                                                            src={model.imageUrl}
+                                                            alt={model.title}
+                                                            className="h-full w-full object-cover"
+                                                        />
+                                                    ) : (
+                                                        getInitials(model.title)
+                                                    )}
+                                                </div>
+                                                <span className="text-sm font-medium">
+                                                    {model.title}
+                                                </span>
+                                            </div>
+                                        </SelectItem>
+                                    ))
+                                )}
+                            </SelectContent>
+                        </Select>
+                        <InputError message={form.errors.model_rambut_id} />
                     </div>
 
                     <div className="grid gap-2">

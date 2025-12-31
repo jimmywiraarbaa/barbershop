@@ -92,12 +92,13 @@ export default function BookingsIndex({
                     emptyMessage="Belum ada data booking."
                     searchableKeys={[
                         'capsterName',
+                        'modelRambutTitle',
                         'name',
                         'email',
                         'whatsapp',
                         'notes',
                     ]}
-                    searchPlaceholder="Cari nama, email, WA..."
+                    searchPlaceholder="Cari nama, model, email, WA..."
                     searchClassName="h-9 w-[220px]"
                 />
             </div>

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Booking;
 use App\Models\Capster;
+use App\Models\HairModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -21,13 +22,15 @@ class BookingController extends Controller
             ->get(['id', 'name']);
 
         $bookings = Booking::query()
-            ->with('capster:id,name')
+            ->with(['capster:id,name', 'modelRambut:id,title'])
             ->latest()
             ->get()
             ->map(fn (Booking $booking) => [
                 'id' => $booking->id,
                 'capsterId' => $booking->capster_id,
                 'capsterName' => $booking->capster?->name,
+                'modelRambutId' => $booking->model_rambut_id,
+                'modelRambutTitle' => $booking->modelRambut?->title,
                 'name' => $booking->name,
                 'email' => $booking->email,
                 'whatsapp' => $booking->whatsapp,
@@ -47,11 +50,36 @@ class BookingController extends Controller
     public function create(): Response
     {
         $capsters = Capster::query()
+            ->with('workHour')
             ->orderBy('name')
-            ->get(['id', 'name']);
+            ->get(['id', 'name', 'image', 'work_hour_id'])
+            ->map(fn (Capster $capster) => [
+                'id' => $capster->id,
+                'name' => $capster->name,
+                'imageUrl' => $capster->image
+                    ? '/storage/'.$capster->image
+                    : null,
+                'workHourName' => $capster->workHour?->name,
+                'workHourDayStart' => $capster->workHour?->day_start,
+                'workHourDayEnd' => $capster->workHour?->day_end,
+                'workHourTimeStart' => $capster->workHour?->time_start,
+                'workHourTimeEnd' => $capster->workHour?->time_end,
+            ]);
+
+        $hairModels = HairModel::query()
+            ->orderBy('title')
+            ->get(['id', 'title', 'image'])
+            ->map(fn (HairModel $hairModel) => [
+                'id' => $hairModel->id,
+                'title' => $hairModel->title,
+                'imageUrl' => $hairModel->image
+                    ? '/storage/'.$hairModel->image
+                    : null,
+            ]);
 
         return Inertia::render('bookings/create', [
             'capsters' => $capsters,
+            'hairModels' => $hairModels,
         ]);
     }
 
@@ -64,6 +92,7 @@ class BookingController extends Controller
 
         $data = $request->validate([
             'capster_id' => ['required', 'integer', 'exists:capsters,id'],
+            'model_rambut_id' => ['nullable', 'integer', 'exists:hair_models,id'],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',
                 'string',
@@ -98,14 +127,40 @@ class BookingController extends Controller
     public function edit(Booking $booking): Response
     {
         $capsters = Capster::query()
+            ->with('workHour')
             ->orderBy('name')
-            ->get(['id', 'name']);
+            ->get(['id', 'name', 'image', 'work_hour_id'])
+            ->map(fn (Capster $capster) => [
+                'id' => $capster->id,
+                'name' => $capster->name,
+                'imageUrl' => $capster->image
+                    ? '/storage/'.$capster->image
+                    : null,
+                'workHourName' => $capster->workHour?->name,
+                'workHourDayStart' => $capster->workHour?->day_start,
+                'workHourDayEnd' => $capster->workHour?->day_end,
+                'workHourTimeStart' => $capster->workHour?->time_start,
+                'workHourTimeEnd' => $capster->workHour?->time_end,
+            ]);
+
+        $hairModels = HairModel::query()
+            ->orderBy('title')
+            ->get(['id', 'title', 'image'])
+            ->map(fn (HairModel $hairModel) => [
+                'id' => $hairModel->id,
+                'title' => $hairModel->title,
+                'imageUrl' => $hairModel->image
+                    ? '/storage/'.$hairModel->image
+                    : null,
+            ]);
 
         return Inertia::render('bookings/edit', [
             'capsters' => $capsters,
+            'hairModels' => $hairModels,
             'booking' => [
                 'id' => $booking->id,
                 'capsterId' => $booking->capster_id,
+                'modelRambutId' => $booking->model_rambut_id,
                 'name' => $booking->name,
                 'email' => $booking->email,
                 'whatsapp' => $booking->whatsapp,
@@ -123,6 +178,7 @@ class BookingController extends Controller
 
         $data = $request->validate([
             'capster_id' => ['required', 'integer', 'exists:capsters,id'],
+            'model_rambut_id' => ['nullable', 'integer', 'exists:hair_models,id'],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',
                 'string',

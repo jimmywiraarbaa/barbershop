@@ -7,6 +7,8 @@ export type BookingRow = {
     id: number;
     capsterId: number;
     capsterName: string | null;
+    modelRambutId: number | null;
+    modelRambutTitle: string | null;
     name: string | null;
     email: string | null;
     whatsapp: string | null;
@@ -19,6 +21,11 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
         accessorKey: 'capsterName',
         header: 'Capster',
         cell: ({ row }) => row.original.capsterName || '-',
+    },
+    {
+        accessorKey: 'modelRambutTitle',
+        header: 'Model Rambut',
+        cell: ({ row }) => row.original.modelRambutTitle || '-',
     },
     {
         accessorKey: 'name',

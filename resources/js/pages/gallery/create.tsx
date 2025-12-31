@@ -1,3 +1,4 @@
+import { ImageCropInput } from '@/components/image-crop-input';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -9,6 +10,7 @@ import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
 import type { FormEvent } from 'react';
+import { useState } from 'react';
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -23,6 +25,7 @@ const breadcrumbs: BreadcrumbItem[] = [
 
 export default function GalleryCreate() {
     const { toast } = useToast();
+    const [pendingCrops, setPendingCrops] = useState<boolean[]>([]);
     const form = useForm<{
         items: Array<{
             title: string;
@@ -57,6 +60,7 @@ export default function GalleryCreate() {
                 order: '',
             },
         ]);
+        setPendingCrops((prev) => [...prev, false]);
     };
 
     const removeRow = (index: number) => {
@@ -67,6 +71,9 @@ export default function GalleryCreate() {
         form.setData(
             'items',
             form.data.items.filter((_, itemIndex) => itemIndex !== index),
+        );
+        setPendingCrops((prev) =>
+            prev.filter((_, itemIndex) => itemIndex !== index),
         );
     };
 
@@ -87,6 +94,8 @@ export default function GalleryCreate() {
             },
         });
     };
+
+    const isCropping = pendingCrops.some(Boolean);
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
@@ -210,14 +219,11 @@ export default function GalleryCreate() {
                                 </div>
 
                                 <div className="grid gap-2">
-                                    <Label htmlFor={`image-${index}`}>
-                                        Image
-                                    </Label>
-                                    <Input
+                                    <ImageCropInput
                                         id={`image-${index}`}
-                                        type="file"
-                                        accept="image/*"
-                                        onChange={(event) =>
+                                        label="Image"
+                                        value={item.image}
+                                        onChange={(file) =>
                                             form.setData(
                                                 'items',
                                                 form.data.items.map(
@@ -225,26 +231,27 @@ export default function GalleryCreate() {
                                                         entryIndex === index
                                                             ? {
                                                                   ...entry,
-                                                                  image:
-                                                                      event
-                                                                          .currentTarget
-                                                                          .files?.[0] ??
-                                                                      null,
+                                                                  image: file,
                                                               }
                                                             : entry,
                                                 ),
                                             )
                                         }
-                                        aria-invalid={
+                                        helperText="Maksimum 2MB. Format gambar umum didukung."
+                                        onPendingChange={(pending) =>
+                                            setPendingCrops((prev) => {
+                                                const next = [...prev];
+                                                next[index] = pending;
+                                                return next;
+                                            })
+                                        }
+                                        ariaInvalid={
                                             !!getError(
                                                 `items.${index}.image`,
                                             )
                                         }
+                                        frameClassName="max-w-[320px]"
                                     />
-                                    <p className="text-xs text-muted-foreground">
-                                        Maksimum 2MB. Format gambar umum
-                                        didukung.
-                                    </p>
                                     <InputError
                                         message={getError(
                                             `items.${index}.image`,
@@ -330,7 +337,10 @@ export default function GalleryCreate() {
                             Tambah baris
                         </Button>
                         <div className="flex items-center gap-3">
-                            <Button type="submit" disabled={form.processing}>
+                            <Button
+                                type="submit"
+                                disabled={form.processing || isCropping}
+                            >
                                 Simpan
                             </Button>
                             <Button variant="secondary" type="button" asChild>
@@ -338,6 +348,11 @@ export default function GalleryCreate() {
                             </Button>
                         </div>
                     </div>
+                    {isCropping ? (
+                        <p className="text-xs text-muted-foreground">
+                            Simpan crop terlebih dulu sebelum submit.
+                        </p>
+                    ) : null}
                 </form>
             </div>
         </AppLayout>

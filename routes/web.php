@@ -4,6 +4,7 @@ use App\Http\Controllers\BookingController;
 use App\Http\Controllers\CapsterController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HairModelController;
+use App\Http\Controllers\PriceController;
 use App\Http\Controllers\WorkHourController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -58,6 +59,19 @@ Route::middleware(['auth', 'verified'])->group(function () {
         ->name('galleries.update');
     Route::delete('gallery/{gallery}', [GalleryController::class, 'destroy'])
         ->name('galleries.destroy');
+
+    Route::get('harga', [PriceController::class, 'index'])
+        ->name('prices.index');
+    Route::get('harga/create', [PriceController::class, 'create'])
+        ->name('prices.create');
+    Route::post('harga', [PriceController::class, 'store'])
+        ->name('prices.store');
+    Route::get('harga/{price}/edit', [PriceController::class, 'edit'])
+        ->name('prices.edit');
+    Route::put('harga/{price}', [PriceController::class, 'update'])
+        ->name('prices.update');
+    Route::delete('harga/{price}', [PriceController::class, 'destroy'])
+        ->name('prices.destroy');
 
     Route::get('model-rambut', [HairModelController::class, 'index'])
         ->name('hair-models.index');

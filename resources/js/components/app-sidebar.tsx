@@ -15,6 +15,7 @@ import { type NavItem } from '@/types';
 import { Link } from '@inertiajs/react';
 import {
     BookOpen,
+    BadgeDollarSign,
     CalendarDays,
     Clock,
     Folder,
@@ -50,6 +51,11 @@ const mainNavItems: NavItem[] = [
         title: 'Gallery',
         href: '/gallery',
         icon: Image,
+    },
+    {
+        title: 'Harga',
+        href: '/harga',
+        icon: BadgeDollarSign,
     },
     {
         title: 'Model Rambut',

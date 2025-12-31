@@ -14,6 +14,7 @@ class Booking extends BaseModel
     protected $fillable = [
         'capster_id',
         'model_rambut_id',
+        'price_id',
         'name',
         'email',
         'whatsapp',
@@ -28,5 +29,10 @@ class Booking extends BaseModel
     public function modelRambut(): BelongsTo
     {
         return $this->belongsTo(HairModel::class, 'model_rambut_id');
+    }
+
+    public function price(): BelongsTo
+    {
+        return $this->belongsTo(Price::class);
     }
 }

@@ -33,10 +33,17 @@ type HairModelOption = {
     imageUrl: string | null;
 };
 
+type PriceOption = {
+    id: number;
+    name: string;
+    price: number;
+};
+
 type Booking = {
     id: number;
     capsterId: number;
     modelRambutId: number | null;
+    priceId: number | null;
     name: string;
     email: string | null;
     whatsapp: string;
@@ -51,6 +58,13 @@ const getInitials = (value: string) =>
         .join('')
         .slice(0, 2)
         .toUpperCase();
+
+const formatCurrency = (value: number) =>
+    new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+    }).format(value);
 
 const formatShift = (capster: CapsterOption) => {
     const dayRange = [capster.workHourDayStart, capster.workHourDayEnd]
@@ -69,10 +83,12 @@ export default function BookingEdit({
     booking,
     capsters,
     hairModels,
+    prices,
 }: {
     booking: Booking;
     capsters: CapsterOption[];
     hairModels: HairModelOption[];
+    prices: PriceOption[];
 }) {
     const { toast } = useToast();
     const form = useForm({
@@ -80,6 +96,7 @@ export default function BookingEdit({
         model_rambut_id: booking.modelRambutId
             ? String(booking.modelRambutId)
             : '',
+        price_id: booking.priceId ? String(booking.priceId) : '',
         name: booking.name ?? '',
         email: booking.email ?? '',
         whatsapp: booking.whatsapp ?? '',
@@ -240,6 +257,55 @@ export default function BookingEdit({
                             </SelectContent>
                         </Select>
                         <InputError message={form.errors.model_rambut_id} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="price_id">Harga</Label>
+                        <Select
+                            value={form.data.price_id}
+                            onValueChange={(value) =>
+                                form.setData(
+                                    'price_id',
+                                    value === 'none' ? '' : value,
+                                )
+                            }
+                        >
+                            <SelectTrigger
+                                id="price_id"
+                                aria-invalid={!!form.errors.price_id}
+                                className="h-12"
+                            >
+                                <SelectValue placeholder="Pilih harga (opsional)" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="none" textValue="Tanpa pilihan">
+                                    Tanpa pilihan
+                                </SelectItem>
+                                {prices.length === 0 ? (
+                                    <SelectItem value="-" disabled>
+                                        Belum ada harga
+                                    </SelectItem>
+                                ) : (
+                                    prices.map((price) => (
+                                        <SelectItem
+                                            key={price.id}
+                                            value={String(price.id)}
+                                            textValue={price.name}
+                                        >
+                                            <div className="flex items-center justify-between gap-4">
+                                                <span className="text-sm font-medium">
+                                                    {price.name}
+                                                </span>
+                                                <span className="text-xs text-muted-foreground">
+                                                    {formatCurrency(price.price)}
+                                                </span>
+                                            </div>
+                                        </SelectItem>
+                                    ))
+                                )}
+                            </SelectContent>
+                        </Select>
+                        <InputError message={form.errors.price_id} />
                     </div>
 
                     <div className="grid gap-2">

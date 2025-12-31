@@ -33,6 +33,12 @@ type HairModelOption = {
     imageUrl: string | null;
 };
 
+type PriceOption = {
+    id: number;
+    name: string;
+    price: number;
+};
+
 const breadcrumbs: BreadcrumbItem[] = [
     {
         title: 'Booking',
@@ -53,6 +59,13 @@ const getInitials = (value: string) =>
         .slice(0, 2)
         .toUpperCase();
 
+const formatCurrency = (value: number) =>
+    new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+    }).format(value);
+
 const formatShift = (capster: CapsterOption) => {
     const dayRange = [capster.workHourDayStart, capster.workHourDayEnd]
         .filter(Boolean)
@@ -69,14 +82,17 @@ const formatShift = (capster: CapsterOption) => {
 export default function BookingCreate({
     capsters,
     hairModels,
+    prices,
 }: {
     capsters: CapsterOption[];
     hairModels: HairModelOption[];
+    prices: PriceOption[];
 }) {
     const { toast } = useToast();
     const form = useForm({
         capster_id: '',
         model_rambut_id: '',
+        price_id: '',
         name: '',
         email: '',
         whatsapp: '',
@@ -226,6 +242,55 @@ export default function BookingCreate({
                             </SelectContent>
                         </Select>
                         <InputError message={form.errors.model_rambut_id} />
+                    </div>
+
+                    <div className="grid gap-2">
+                        <Label htmlFor="price_id">Harga</Label>
+                        <Select
+                            value={form.data.price_id}
+                            onValueChange={(value) =>
+                                form.setData(
+                                    'price_id',
+                                    value === 'none' ? '' : value,
+                                )
+                            }
+                        >
+                            <SelectTrigger
+                                id="price_id"
+                                aria-invalid={!!form.errors.price_id}
+                                className="h-12"
+                            >
+                                <SelectValue placeholder="Pilih harga (opsional)" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectItem value="none" textValue="Tanpa pilihan">
+                                    Tanpa pilihan
+                                </SelectItem>
+                                {prices.length === 0 ? (
+                                    <SelectItem value="-" disabled>
+                                        Belum ada harga
+                                    </SelectItem>
+                                ) : (
+                                    prices.map((price) => (
+                                        <SelectItem
+                                            key={price.id}
+                                            value={String(price.id)}
+                                            textValue={price.name}
+                                        >
+                                            <div className="flex items-center justify-between gap-4">
+                                                <span className="text-sm font-medium">
+                                                    {price.name}
+                                                </span>
+                                                <span className="text-xs text-muted-foreground">
+                                                    {formatCurrency(price.price)}
+                                                </span>
+                                            </div>
+                                        </SelectItem>
+                                    ))
+                                )}
+                            </SelectContent>
+                        </Select>
+                        <InputError message={form.errors.price_id} />
                     </div>
 
                     <div className="grid gap-2">

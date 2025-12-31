@@ -93,12 +93,13 @@ export default function BookingsIndex({
                     searchableKeys={[
                         'capsterName',
                         'modelRambutTitle',
+                        'priceName',
                         'name',
                         'email',
                         'whatsapp',
                         'notes',
                     ]}
-                    searchPlaceholder="Cari nama, model, email, WA..."
+                    searchPlaceholder="Cari nama, model, harga, email, WA..."
                     searchClassName="h-9 w-[220px]"
                 />
             </div>

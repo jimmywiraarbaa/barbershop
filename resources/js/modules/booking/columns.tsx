@@ -9,12 +9,22 @@ export type BookingRow = {
     capsterName: string | null;
     modelRambutId: number | null;
     modelRambutTitle: string | null;
+    priceId: number | null;
+    priceName: string | null;
+    priceAmount: number | null;
     name: string | null;
     email: string | null;
     whatsapp: string | null;
     notes: string | null;
     createdAt: string | null;
 };
+
+const formatCurrency = (value: number) =>
+    new Intl.NumberFormat('id-ID', {
+        style: 'currency',
+        currency: 'IDR',
+        minimumFractionDigits: 0,
+    }).format(value);
 
 export const bookingColumns: ColumnDef<BookingRow>[] = [
     {
@@ -26,6 +36,27 @@ export const bookingColumns: ColumnDef<BookingRow>[] = [
         accessorKey: 'modelRambutTitle',
         header: 'Model Rambut',
         cell: ({ row }) => row.original.modelRambutTitle || '-',
+    },
+    {
+        accessorKey: 'priceName',
+        header: 'Harga',
+        cell: ({ row }) => {
+            const { priceName, priceAmount } = row.original;
+            if (! priceName) {
+                return '-';
+            }
+
+            return (
+                <div className="space-y-0.5">
+                    <div className="text-sm font-medium">{priceName}</div>
+                    {priceAmount !== null ? (
+                        <div className="text-xs text-muted-foreground">
+                            {formatCurrency(priceAmount)}
+                        </div>
+                    ) : null}
+                </div>
+            );
+        },
     },
     {
         accessorKey: 'name',

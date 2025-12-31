@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Booking;
 use App\Models\Capster;
 use App\Models\HairModel;
+use App\Models\Price;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -22,7 +23,7 @@ class BookingController extends Controller
             ->get(['id', 'name']);
 
         $bookings = Booking::query()
-            ->with(['capster:id,name', 'modelRambut:id,title'])
+            ->with(['capster:id,name', 'modelRambut:id,title', 'price:id,name,price'])
             ->latest()
             ->get()
             ->map(fn (Booking $booking) => [
@@ -31,6 +32,9 @@ class BookingController extends Controller
                 'capsterName' => $booking->capster?->name,
                 'modelRambutId' => $booking->model_rambut_id,
                 'modelRambutTitle' => $booking->modelRambut?->title,
+                'priceId' => $booking->price_id,
+                'priceName' => $booking->price?->name,
+                'priceAmount' => $booking->price?->price,
                 'name' => $booking->name,
                 'email' => $booking->email,
                 'whatsapp' => $booking->whatsapp,
@@ -77,9 +81,19 @@ class BookingController extends Controller
                     : null,
             ]);
 
+        $prices = Price::query()
+            ->orderBy('name')
+            ->get(['id', 'name', 'price'])
+            ->map(fn (Price $price) => [
+                'id' => $price->id,
+                'name' => $price->name,
+                'price' => $price->price,
+            ]);
+
         return Inertia::render('bookings/create', [
             'capsters' => $capsters,
             'hairModels' => $hairModels,
+            'prices' => $prices,
         ]);
     }
 
@@ -93,6 +107,11 @@ class BookingController extends Controller
         $data = $request->validate([
             'capster_id' => ['required', 'integer', 'exists:capsters,id'],
             'model_rambut_id' => ['nullable', 'integer', 'exists:hair_models,id'],
+            'price_id' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'integer',
+                'exists:prices,id',
+            ],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',
                 'string',
@@ -154,13 +173,24 @@ class BookingController extends Controller
                     : null,
             ]);
 
+        $prices = Price::query()
+            ->orderBy('name')
+            ->get(['id', 'name', 'price'])
+            ->map(fn (Price $price) => [
+                'id' => $price->id,
+                'name' => $price->name,
+                'price' => $price->price,
+            ]);
+
         return Inertia::render('bookings/edit', [
             'capsters' => $capsters,
             'hairModels' => $hairModels,
+            'prices' => $prices,
             'booking' => [
                 'id' => $booking->id,
                 'capsterId' => $booking->capster_id,
                 'modelRambutId' => $booking->model_rambut_id,
+                'priceId' => $booking->price_id,
                 'name' => $booking->name,
                 'email' => $booking->email,
                 'whatsapp' => $booking->whatsapp,
@@ -179,6 +209,11 @@ class BookingController extends Controller
         $data = $request->validate([
             'capster_id' => ['required', 'integer', 'exists:capsters,id'],
             'model_rambut_id' => ['nullable', 'integer', 'exists:hair_models,id'],
+            'price_id' => [
+                $requireCustomerFields ? 'required' : 'nullable',
+                'integer',
+                'exists:prices,id',
+            ],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',
                 'string',

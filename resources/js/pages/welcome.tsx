@@ -12,9 +12,9 @@ const navLinks = [
 ];
 
 const stats = [
-    { label: 'Clients per week', value: '420+' },
+    { label: 'Capsters', value: '4' },
     { label: 'Average session', value: '35 min' },
-    { label: 'Premium rating', value: '4.9/5' },
+    // { label: 'Premium rating', value: '4.9/5' },
 ];
 
 const services = [
@@ -39,20 +39,17 @@ const testimonials = [
     {
         name: 'Raka W',
         role: 'Regular Client',
-        quote:
-            'Every detail is on point. I can book, arrive, and walk out confident.',
+        quote: 'Every detail is on point. I can book, arrive, and walk out confident.',
     },
     {
         name: 'Alvin S',
         role: 'Entrepreneur',
-        quote:
-            'Clean space, sharp barbers, and the schedule is always accurate.',
+        quote: 'Clean space, sharp barbers, and the schedule is always accurate.',
     },
     {
         name: 'Dimas H',
         role: 'Athlete',
-        quote:
-            'Fast service without cutting corners. Exactly what I need.',
+        quote: 'Fast service without cutting corners. Exactly what I need.',
     },
 ];
 
@@ -60,26 +57,22 @@ const teamMembers = [
     {
         name: 'Ronaldo F',
         role: 'Master Barber',
-        image:
-            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
+        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
     },
     {
         name: 'Jenna S',
         role: 'Style Curator',
-        image:
-            'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80',
+        image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80',
     },
     {
         name: 'Irfan K',
         role: 'Senior Barber',
-        image:
-            'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=80',
+        image: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=80',
     },
     {
         name: 'Ayu M',
         role: 'Grooming Artist',
-        image:
-            'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
+        image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
     },
 ];
 
@@ -114,7 +107,7 @@ export default function Welcome({
                     .landing-hero {
                         background-image:
                             linear-gradient(90deg, rgba(5, 7, 12, 0.92) 0%, rgba(5, 7, 12, 0.75) 45%, rgba(5, 7, 12, 0.2) 100%),
-                            url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1800&q=80');
+                            url('https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=2948&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
                         background-size: cover;
                         background-position: center;
                     }
@@ -168,17 +161,16 @@ export default function Welcome({
                 <div className="landing-hero relative">
                     <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 text-white">
                         <div className="flex items-center gap-3">
-                            <div className="grid h-10 w-10 place-items-center rounded-full border border-white/40 text-sm font-semibold">
-                                CH
-                            </div>
                             <div>
-                                <p className="text-xs uppercase tracking-[0.4em] text-white/60">
+                                <p className="text-xs tracking-[0.4em] text-white/60 uppercase">
                                     Coolhead
                                 </p>
-                                <p className="text-sm font-medium">Barbershop</p>
+                                <p className="text-sm font-medium">
+                                    Barbershop
+                                </p>
                             </div>
                         </div>
-                        <nav className="hidden items-center gap-6 text-xs uppercase tracking-[0.3em] text-white/70 lg:flex">
+                        <nav className="hidden items-center gap-6 text-xs tracking-[0.3em] text-white/70 uppercase lg:flex">
                             {navLinks.map((link) => (
                                 <a
                                     key={link.href}
@@ -193,7 +185,7 @@ export default function Welcome({
                             {auth.user ? (
                                 <Link
                                     href={dashboard()}
-                                    className="rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white hover:text-black"
+                                    className="rounded-full border border-white/40 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase transition hover:bg-white hover:text-black"
                                 >
                                     Dashboard
                                 </Link>
@@ -201,14 +193,14 @@ export default function Welcome({
                                 <>
                                     <Link
                                         href={login()}
-                                        className="rounded-full border border-white/40 px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white transition hover:bg-white hover:text-black"
+                                        className="rounded-full border border-white/40 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase transition hover:bg-white hover:text-black"
                                     >
                                         Masuk
                                     </Link>
                                     {canRegister && (
                                         <Link
                                             href={register()}
-                                            className="rounded-full bg-[var(--landing-red)] px-4 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-white shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
+                                            className="rounded-full bg-[var(--landing-red)] px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
                                         >
                                             Daftar
                                         </Link>
@@ -218,32 +210,35 @@ export default function Welcome({
                         </div>
                     </header>
 
-                    <main className="mx-auto grid max-w-6xl gap-12 px-6 pb-24 pt-10 text-white lg:grid-cols-[1.05fr_0.95fr]">
-                        <div className="fade-up" style={{ animationDelay: '120ms' }}>
-                            <p className="text-xs uppercase tracking-[0.5em] text-white/70">
+                    <main className="mx-auto grid max-w-6xl gap-12 px-6 pt-10 pb-24 text-white lg:grid-cols-[1.05fr_0.95fr]">
+                        <div
+                            className="fade-up"
+                            style={{ animationDelay: '120ms' }}
+                        >
+                            <p className="text-xs tracking-[0.5em] text-white/70 uppercase">
                                 Premium Grooming House
                             </p>
-                            <h1 className="section-title mt-4 text-4xl font-semibold leading-tight md:text-6xl">
+                            <h1 className="section-title mt-4 text-4xl leading-tight font-semibold md:text-6xl">
                                 Experience the Luxury
                                 <span className="block text-white/70">
                                     of Modern Barbering
                                 </span>
                             </h1>
                             <p className="mt-5 max-w-xl text-sm text-white/75 md:text-base">
-                                A clean cut, calm atmosphere, and a schedule that
-                                never wastes your time. Pick your capster, lock
-                                the slot, and walk out sharp.
+                                A clean cut, calm atmosphere, and a schedule
+                                that never wastes your time. Pick your capster,
+                                lock the slot, and walk out sharp.
                             </p>
                             <div className="mt-6 flex flex-wrap items-center gap-3">
                                 <Link
                                     href={auth.user ? dashboard() : login()}
-                                    className="rounded-full bg-[var(--landing-red)] px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
+                                    className="rounded-full bg-[var(--landing-red)] px-6 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
                                 >
                                     Book Now
                                 </Link>
                                 <a
                                     href="#services"
-                                    className="rounded-full border border-white/40 px-6 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-white hover:text-black"
+                                    className="rounded-full border border-white/40 px-6 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:bg-white hover:text-black"
                                 >
                                     View Services
                                 </a>
@@ -267,51 +262,15 @@ export default function Welcome({
                                 ))}
                             </div>
                         </div>
-                        <div className="relative flex items-center justify-center">
-                            <div className="float-slow w-full max-w-sm rounded-[34px] border border-white/10 bg-white/10 p-6 backdrop-blur">
-                                <div className="flex items-center justify-between text-xs uppercase tracking-[0.3em] text-white/60">
-                                    <span>Today</span>
-                                    <span>Slots</span>
-                                </div>
-                                <div className="mt-6 space-y-4">
-                                    <div className="rounded-2xl border border-white/10 bg-white/90 p-4 text-black">
-                                        <p className="text-sm font-semibold">
-                                            Executive Fade
-                                        </p>
-                                        <p className="mt-1 text-xs text-black/60">
-                                            Sharp temple line, classic top.
-                                        </p>
-                                        <div className="mt-3 flex items-center justify-between text-xs text-black/60">
-                                            <span>45 min</span>
-                                            <span>Rp 90k</span>
-                                        </div>
-                                    </div>
-                                    <div className="rounded-2xl border border-white/10 bg-white/80 p-4 text-black">
-                                        <p className="text-sm font-semibold">
-                                            Beard Ritual
-                                        </p>
-                                        <p className="mt-1 text-xs text-black/60">
-                                            Line-up, trim, and smooth finish.
-                                        </p>
-                                        <div className="mt-3 flex items-center justify-between text-xs text-black/60">
-                                            <span>30 min</span>
-                                            <span>Rp 55k</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="mt-6 rounded-2xl border border-white/10 bg-white/95 px-4 py-3 text-xs text-black/60">
-                                    Every capster has a scheduled shift for
-                                    reliable booking.
-                                </div>
-                            </div>
-                        </div>
                     </main>
                 </div>
 
                 <section className="relative">
                     <div className="bg-[var(--landing-red)]">
                         <div className="mx-auto flex max-w-6xl items-center justify-center px-6 py-6 text-center">
-                            <p className="ribbon-text">COOLHEAD SALOON FOR MEN</p>
+                            <p className="ribbon-text">
+                                COOLHEAD SALOON FOR MEN
+                            </p>
                         </div>
                     </div>
                     <svg
@@ -330,8 +289,11 @@ export default function Welcome({
                     id="map"
                     className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1.1fr_0.9fr]"
                 >
-                    <div className="fade-up" style={{ animationDelay: '140ms' }}>
-                        <p className="text-xs uppercase tracking-[0.4em] text-[var(--landing-muted)]">
+                    <div
+                        className="fade-up"
+                        style={{ animationDelay: '140ms' }}
+                    >
+                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
                             Find us on map
                         </p>
                         <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
@@ -348,13 +310,13 @@ export default function Welcome({
                         <div className="mt-6 flex flex-wrap gap-3">
                             <a
                                 href="#contact"
-                                className="rounded-full bg-[var(--landing-blue)] px-5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-white transition hover:-translate-y-0.5"
+                                className="rounded-full bg-[var(--landing-blue)] px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:-translate-y-0.5"
                             >
                                 Get Directions
                             </a>
                             <a
                                 href="#services"
-                                className="rounded-full border border-black/10 px-5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-[var(--landing-ink)] transition hover:-translate-y-0.5"
+                                className="rounded-full border border-black/10 px-5 py-2 text-xs font-semibold tracking-[0.25em] text-[var(--landing-ink)] uppercase transition hover:-translate-y-0.5"
                             >
                                 Browse Services
                             </a>
@@ -366,7 +328,8 @@ export default function Welcome({
                             style={{
                                 backgroundImage:
                                     'linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px), radial-gradient(circle at 30% 20%, rgba(29,78,216,0.3), transparent 40%), radial-gradient(circle at 70% 60%, rgba(215,38,61,0.35), transparent 45%)',
-                                backgroundSize: '28px 28px, 28px 28px, cover, cover',
+                                backgroundSize:
+                                    '28px 28px, 28px 28px, cover, cover',
                             }}
                         >
                             {[
@@ -408,7 +371,7 @@ export default function Welcome({
                                 Coolhead Main Studio
                             </div>
                         </div>
-                        <div className="absolute -bottom-8 right-6 hidden rounded-3xl border border-black/10 bg-white px-4 py-3 text-xs text-[var(--landing-muted)] shadow-lg md:block">
+                        <div className="absolute right-6 -bottom-8 hidden rounded-3xl border border-black/10 bg-white px-4 py-3 text-xs text-[var(--landing-muted)] shadow-lg md:block">
                             Open daily, walk-ins welcome.
                         </div>
                     </div>
@@ -425,12 +388,15 @@ export default function Welcome({
                             className="h-[360px] w-full rounded-[30px] object-cover grayscale"
                             loading="lazy"
                         />
-                        <div className="absolute -bottom-6 left-6 rounded-2xl bg-[var(--landing-blue)] px-4 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white">
+                        <div className="absolute -bottom-6 left-6 rounded-2xl bg-[var(--landing-blue)] px-4 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase">
                             Luxurious
                         </div>
                     </div>
-                    <div className="fade-up" style={{ animationDelay: '160ms' }}>
-                        <p className="text-xs uppercase tracking-[0.4em] text-[var(--landing-muted)]">
+                    <div
+                        className="fade-up"
+                        style={{ animationDelay: '160ms' }}
+                    >
+                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
                             What makes us different
                         </p>
                         <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
@@ -466,8 +432,11 @@ export default function Welcome({
                     id="services"
                     className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 md:grid-cols-[1.05fr_0.95fr]"
                 >
-                    <div className="fade-up" style={{ animationDelay: '180ms' }}>
-                        <p className="text-xs uppercase tracking-[0.4em] text-[var(--landing-muted)]">
+                    <div
+                        className="fade-up"
+                        style={{ animationDelay: '180ms' }}
+                    >
+                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
                             Our Services
                         </p>
                         <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
@@ -509,7 +478,7 @@ export default function Welcome({
                             className="h-[360px] w-full rounded-[30px] object-cover grayscale"
                             loading="lazy"
                         />
-                        <div className="absolute -bottom-6 right-6 rounded-2xl bg-[var(--landing-red)] px-4 py-3 text-xs font-semibold uppercase tracking-[0.25em] text-white">
+                        <div className="absolute right-6 -bottom-6 rounded-2xl bg-[var(--landing-red)] px-4 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase">
                             Premium & Elegant
                         </div>
                     </div>
@@ -521,7 +490,7 @@ export default function Welcome({
                 >
                     <div className="mx-auto max-w-6xl px-6 py-16">
                         <div className="text-center">
-                            <p className="text-xs uppercase tracking-[0.4em] text-[var(--landing-muted)]">
+                            <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
                                 Voices of satisfaction
                             </p>
                             <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
@@ -537,7 +506,7 @@ export default function Welcome({
                                     key={item.name}
                                     className="rounded-3xl border border-black/10 bg-white p-6"
                                 >
-                                    <p className="text-xs uppercase tracking-[0.3em] text-[var(--landing-muted)]">
+                                    <p className="text-xs tracking-[0.3em] text-[var(--landing-muted)] uppercase">
                                         5/5 rating
                                     </p>
                                     <p className="mt-4 text-sm text-[var(--landing-muted)]">
@@ -559,7 +528,7 @@ export default function Welcome({
 
                 <section id="team" className="mx-auto max-w-6xl px-6 py-16">
                     <div className="flex flex-col items-center gap-4 text-center">
-                        <p className="text-xs uppercase tracking-[0.4em] text-[var(--landing-muted)]">
+                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
                             Meet the team
                         </p>
                         <h2 className="section-title text-3xl font-semibold md:text-4xl">
@@ -608,7 +577,7 @@ export default function Welcome({
                             loading="lazy"
                         />
                         <div className="rounded-[30px] border border-black/10 bg-[var(--landing-dark)] p-8 text-white">
-                            <p className="text-xs uppercase tracking-[0.4em] text-white/60">
+                            <p className="text-xs tracking-[0.4em] text-white/60 uppercase">
                                 Contact us
                             </p>
                             <h2 className="section-title mt-4 text-3xl font-semibold">
@@ -626,7 +595,7 @@ export default function Welcome({
                             <div className="mt-6 flex flex-wrap gap-3">
                                 <Link
                                     href={auth.user ? dashboard() : login()}
-                                    className="rounded-full bg-[var(--landing-red)] px-5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-white transition hover:-translate-y-0.5"
+                                    className="rounded-full bg-[var(--landing-red)] px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:-translate-y-0.5"
                                 >
                                     Book a Seat
                                 </Link>
@@ -634,7 +603,7 @@ export default function Welcome({
                                     href="https://maps.google.com"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-white transition hover:bg-white hover:text-black"
+                                    className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:bg-white hover:text-black"
                                 >
                                     Open Maps
                                 </a>
@@ -651,7 +620,7 @@ export default function Welcome({
                                     CH
                                 </div>
                                 <div>
-                                    <p className="text-xs uppercase tracking-[0.4em] text-white/50">
+                                    <p className="text-xs tracking-[0.4em] text-white/50 uppercase">
                                         Coolhead
                                     </p>
                                     <p className="text-sm">Barbershop</p>
@@ -663,7 +632,7 @@ export default function Welcome({
                             </p>
                         </div>
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white">
+                            <p className="text-xs font-semibold tracking-[0.3em] text-white uppercase">
                                 Studio
                             </p>
                             <ul className="mt-4 space-y-2 text-sm">
@@ -674,7 +643,7 @@ export default function Welcome({
                             </ul>
                         </div>
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white">
+                            <p className="text-xs font-semibold tracking-[0.3em] text-white uppercase">
                                 Support
                             </p>
                             <ul className="mt-4 space-y-2 text-sm">
@@ -685,7 +654,7 @@ export default function Welcome({
                             </ul>
                         </div>
                         <div>
-                            <p className="text-xs font-semibold uppercase tracking-[0.3em] text-white">
+                            <p className="text-xs font-semibold tracking-[0.3em] text-white uppercase">
                                 Visit
                             </p>
                             <ul className="mt-4 space-y-2 text-sm">

@@ -12,25 +12,24 @@ const navLinks = [
 ];
 
 const stats = [
-    { label: 'Capsters', value: '4' },
-    // { label: 'Average session', value: '35 min' },
-    { label: 'Senin - Minggu', value: '09.00 - 23.00' },
+    { label: 'Capster aktif', value: '4' },
+    { label: 'Open daily', value: '09.00 - 23.00' },
 ];
 
 const services = [
     {
         title: 'Signature Fade',
-        detail: 'Precision fade with clean, sharp lines.',
+        detail: 'Fade clean, garis tajam.',
         price: 'Rp 85k',
     },
     {
         title: 'Beard Architecture',
-        detail: 'Shape, define, and smooth the beard line.',
+        detail: 'Beard rapi, line up on point.',
         price: 'Rp 55k',
     },
     {
         title: 'Scalp Refresh',
-        detail: 'Wash, massage, and styling finish.',
+        detail: 'Wash + massage, finish fresh.',
         price: 'Rp 45k',
     },
 ];
@@ -39,24 +38,24 @@ const testimonials = [
     {
         name: 'Raka W',
         role: 'Regular Client',
-        quote: 'Every detail is on point. I can book, arrive, and walk out confident.',
+        quote: 'Booking gampang, hasil clean.',
     },
     {
         name: 'Alvin S',
         role: 'Entrepreneur',
-        quote: 'Clean space, sharp barbers, and the schedule is always accurate.',
+        quote: 'Datang on time, pulang fresh.',
     },
     {
         name: 'Dimas H',
         role: 'Athlete',
-        quote: 'Fast service without cutting corners. Exactly what I need.',
+        quote: 'Fast cut, no drama.',
     },
 ];
 
 const teamMembers = [
     {
         name: 'Ronaldo F',
-        role: 'Master Barber',
+        role: 'Lead Barber',
         image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
     },
     {
@@ -66,12 +65,12 @@ const teamMembers = [
     },
     {
         name: 'Irfan K',
-        role: 'Senior Barber',
+        role: 'Fade Specialist',
         image: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=80',
     },
     {
         name: 'Ayu M',
-        role: 'Grooming Artist',
+        role: 'Grooming Pro',
         image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
     },
 ];
@@ -216,34 +215,33 @@ export default function Welcome({
                             style={{ animationDelay: '120ms' }}
                         >
                             <p className="text-xs tracking-[0.5em] text-white/70 uppercase">
-                                Premium Grooming House
+                                Clean Cut, Good Vibes
                             </p>
                             <h1 className="section-title mt-4 text-4xl leading-tight font-semibold md:text-6xl">
-                                Experience the Luxury
+                                Cut rapi, vibe naik
                                 <span className="block text-white/70">
-                                    of Modern Barbering
+                                    Stay fresh, stay chill
                                 </span>
                             </h1>
                             <p className="mt-5 max-w-xl text-sm text-white/75 md:text-base">
-                                A clean cut, calm atmosphere, and a schedule
-                                that never wastes your time. Pick your capster,
-                                lock the slot, and walk out sharp.
+                                Datang, duduk, selesai. Fast, clean, on time.
+                                Pilih capster, booking slot, langsung gas.
                             </p>
                             <div className="mt-6 flex flex-wrap items-center gap-3">
                                 <Link
                                     href={auth.user ? dashboard() : login()}
                                     className="rounded-full bg-[var(--landing-red)] px-6 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
                                 >
-                                    Book Now
+                                    Booking Slot
                                 </Link>
                                 <a
                                     href="#services"
                                     className="rounded-full border border-white/40 px-6 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:bg-white hover:text-black"
                                 >
-                                    View Services
+                                    Lihat List
                                 </a>
                             </div>
-                            <div className="mt-10 grid gap-4 md:grid-cols-3">
+                            <div className="mt-10 grid gap-4 md:grid-cols-2">
                                 {stats.map((stat, index) => (
                                     <div
                                         key={stat.label}
@@ -268,9 +266,7 @@ export default function Welcome({
                 <section className="relative">
                     <div className="bg-[var(--landing-red)]">
                         <div className="mx-auto flex max-w-6xl items-center justify-center px-6 py-6 text-center">
-                            <p className="ribbon-text">
-                                COOLHEAD SALOON FOR MEN
-                            </p>
+                            <p className="ribbon-text">COOLHEAD BARBER VIBES</p>
                         </div>
                     </div>
                     <svg
@@ -285,6 +281,196 @@ export default function Welcome({
                     </svg>
                 </section>
 
+
+                <section
+                    id="services"
+                    className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 md:grid-cols-[1.05fr_0.95fr]"
+                >
+                    <div
+                        className="fade-up"
+                        style={{ animationDelay: '180ms' }}
+                    >
+                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
+                            Services
+                        </p>
+                        <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
+                            Menu simpel, hasil clean
+                            <span className="text-[var(--landing-blue)]">
+                                Pick your vibe.
+                            </span>
+                        </h2>
+                        <p className="mt-4 text-sm text-[var(--landing-muted)] md:text-base">
+                            Fade, beard, refresh. Semua konsisten.
+                        </p>
+                        <div className="mt-6 space-y-4">
+                            {services.map((service) => (
+                                <div
+                                    key={service.title}
+                                    className="flex items-center justify-between rounded-2xl border border-black/10 bg-white px-4 py-4"
+                                >
+                                    <div>
+                                        <p className="text-sm font-semibold">
+                                            {service.title}
+                                        </p>
+                                        <p className="text-xs text-[var(--landing-muted)]">
+                                            {service.detail}
+                                        </p>
+                                    </div>
+                                    <span className="rounded-full bg-[var(--landing-soft-red)] px-3 py-1 text-xs font-semibold text-[var(--landing-red)]">
+                                        {service.price}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                    <div className="relative">
+                        <img
+                            src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80"
+                            alt="Barber service"
+                            className="h-[360px] w-full rounded-[30px] object-cover grayscale"
+                            loading="lazy"
+                        />
+                        <div className="absolute right-6 -bottom-6 rounded-2xl bg-[var(--landing-red)] px-4 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase">
+                            Clean & Sharp
+                        </div>
+                    </div>
+                </section>
+
+
+                <section id="team" className="mx-auto max-w-6xl px-6 py-16">
+                    <div className="flex flex-col items-center gap-4 text-center">
+                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
+                            Meet the crew
+                        </p>
+                        <h2 className="section-title text-3xl font-semibold md:text-4xl">
+                            Capster pilihan, detail first
+                            <span className="text-[var(--landing-blue)]">
+                                no drama.
+                            </span>
+                        </h2>
+                        <p className="max-w-2xl text-sm text-[var(--landing-muted)]">
+                            Skill konsisten, vibes friendly.
+                        </p>
+                    </div>
+                    <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+                        {teamMembers.map((member) => (
+                            <div
+                                key={member.name}
+                                className="group overflow-hidden rounded-3xl border border-black/10 bg-white"
+                            >
+                                <img
+                                    src={member.image}
+                                    alt={member.name}
+                                    className="h-64 w-full object-cover grayscale transition duration-500 group-hover:scale-105"
+                                    loading="lazy"
+                                />
+                                <div className="p-4">
+                                    <p className="text-sm font-semibold">
+                                        {member.name}
+                                    </p>
+                                    <p className="text-xs text-[var(--landing-muted)]">
+                                        {member.role}
+                                    </p>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </section>
+
+
+                <section
+                    id="difference"
+                    className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 md:grid-cols-[0.9fr_1.1fr]"
+                >
+                    <div className="relative">
+                        <img
+                            src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80"
+                            alt="Barbershop interior"
+                            className="h-[360px] w-full rounded-[30px] object-cover grayscale"
+                            loading="lazy"
+                        />
+                        <div className="absolute -bottom-6 left-6 rounded-2xl bg-[var(--landing-blue)] px-4 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase">
+                            Chill Spot
+                        </div>
+                    </div>
+                    <div
+                        className="fade-up"
+                        style={{ animationDelay: '160ms' }}
+                    >
+                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
+                            Why us
+                        </p>
+                        <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
+                            Detail first, service chill
+                            <span className="text-[var(--landing-red)]">
+                                No ngantri lama.
+                            </span>
+                        </h2>
+                        <p className="mt-4 text-sm text-[var(--landing-muted)] md:text-base">
+                            Slot jelas, flow rapi. Kamu duduk, kita beresin.
+                        </p>
+                        <div className="mt-6 grid gap-3 text-sm text-[var(--landing-muted)] md:grid-cols-2">
+                            <div className="rounded-2xl border border-black/10 bg-[var(--landing-soft-blue)]/60 p-4">
+                                Hygiene on point.
+                            </div>
+                            <div className="rounded-2xl border border-black/10 bg-[var(--landing-soft-red)]/70 p-4">
+                                Slot booking jelas.
+                            </div>
+                            <div className="rounded-2xl border border-black/10 bg-white p-4">
+                                Produk premium.
+                            </div>
+                            <div className="rounded-2xl border border-black/10 bg-white p-4">
+                                Lounge comfy.
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
+                <section id="contact" className="bg-white">
+                    <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[0.95fr_1.05fr]">
+                        <img
+                            src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80"
+                            alt="Barbershop chair"
+                            className="h-[320px] w-full rounded-[30px] object-cover grayscale"
+                            loading="lazy"
+                        />
+                        <div className="rounded-[30px] border border-black/10 bg-[var(--landing-dark)] p-8 text-white">
+                            <p className="text-xs tracking-[0.4em] text-white/60 uppercase">
+                                Contact
+                            </p>
+                            <h2 className="section-title mt-4 text-3xl font-semibold">
+                                Ready for fresh cut?
+                            </h2>
+                            <p className="mt-4 text-sm text-white/70">
+                                Datang langsung atau book online. Slot on time.
+                            </p>
+                            <div className="mt-6 space-y-3 text-sm text-white/70">
+                                <p>Jl. Sudirman No. 24, Pontianak</p>
+                                <p>WhatsApp: 08xx-xxxx-xxxx</p>
+                                <p>Email: hello@coolhead.com</p>
+                            </div>
+                            <div className="mt-6 flex flex-wrap gap-3">
+                                <Link
+                                    href={auth.user ? dashboard() : login()}
+                                    className="rounded-full bg-[var(--landing-red)] px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:-translate-y-0.5"
+                                >
+                                    Book Slot
+                                </Link>
+                                <a
+                                    href="https://maps.google.com"
+                                    target="_blank"
+                                    rel="noreferrer"
+                                    className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:bg-white hover:text-black"
+                                >
+                                    Open Maps
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+
                 <section
                     id="map"
                     className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[1.1fr_0.9fr]"
@@ -294,31 +480,30 @@ export default function Welcome({
                         style={{ animationDelay: '140ms' }}
                     >
                         <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
-                            Find us on map
+                            Find us
                         </p>
                         <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
-                            Your new grooming sanctuary
+                            Dekat, easy to reach
                             <span className="block text-[var(--landing-blue)]">
-                                right in the city center.
+                                City center vibes.
                             </span>
                         </h2>
                         <p className="mt-4 text-sm text-[var(--landing-muted)] md:text-base">
-                            Walk in for a quick touch-up or lock in an
-                            appointment. Our lounge is designed for focus and
-                            comfort, with a detail-first service flow.
+                            Walk in atau book dulu. Akses gampang, tempatnya
+                            chill, mood naik.
                         </p>
                         <div className="mt-6 flex flex-wrap gap-3">
                             <a
                                 href="#contact"
                                 className="rounded-full bg-[var(--landing-blue)] px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:-translate-y-0.5"
                             >
-                                Get Directions
+                                Open Maps
                             </a>
                             <a
                                 href="#services"
                                 className="rounded-full border border-black/10 px-5 py-2 text-xs font-semibold tracking-[0.25em] text-[var(--landing-ink)] uppercase transition hover:-translate-y-0.5"
                             >
-                                Browse Services
+                                Lihat Menu
                             </a>
                         </div>
                     </div>
@@ -368,249 +553,15 @@ export default function Welcome({
                                 </span>
                             ))}
                             <div className="absolute bottom-5 left-6 rounded-full bg-white px-4 py-2 text-xs font-semibold text-black">
-                                Coolhead Main Studio
+                                Coolhead Studio
                             </div>
                         </div>
                         <div className="absolute right-6 -bottom-8 hidden rounded-3xl border border-black/10 bg-white px-4 py-3 text-xs text-[var(--landing-muted)] shadow-lg md:block">
-                            Open daily, walk-ins welcome.
+                            Open daily, walk-in ok.
                         </div>
                     </div>
                 </section>
 
-                <section
-                    id="difference"
-                    className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 md:grid-cols-[0.9fr_1.1fr]"
-                >
-                    <div className="relative">
-                        <img
-                            src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1200&q=80"
-                            alt="Luxury barbershop interior"
-                            className="h-[360px] w-full rounded-[30px] object-cover grayscale"
-                            loading="lazy"
-                        />
-                        <div className="absolute -bottom-6 left-6 rounded-2xl bg-[var(--landing-blue)] px-4 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase">
-                            Luxurious
-                        </div>
-                    </div>
-                    <div
-                        className="fade-up"
-                        style={{ animationDelay: '160ms' }}
-                    >
-                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
-                            What makes us different
-                        </p>
-                        <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
-                            Precision, hospitality, and
-                            <span className="text-[var(--landing-red)]">
-                                a calendar that respects you.
-                            </span>
-                        </h2>
-                        <p className="mt-4 text-sm text-[var(--landing-muted)] md:text-base">
-                            We schedule each capster to avoid crowding. Every
-                            chair has a timeline, and every service has a
-                            checklist. You get consistent results without the
-                            wait.
-                        </p>
-                        <div className="mt-6 grid gap-3 text-sm text-[var(--landing-muted)] md:grid-cols-2">
-                            <div className="rounded-2xl border border-black/10 bg-[var(--landing-soft-blue)]/60 p-4">
-                                Clean workstations every session.
-                            </div>
-                            <div className="rounded-2xl border border-black/10 bg-[var(--landing-soft-red)]/70 p-4">
-                                Verified booking slots for every capster.
-                            </div>
-                            <div className="rounded-2xl border border-black/10 bg-white p-4">
-                                Premium grooming products only.
-                            </div>
-                            <div className="rounded-2xl border border-black/10 bg-white p-4">
-                                Lounge designed for calm focus.
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <section
-                    id="services"
-                    className="mx-auto grid max-w-6xl gap-10 px-6 pb-16 md:grid-cols-[1.05fr_0.95fr]"
-                >
-                    <div
-                        className="fade-up"
-                        style={{ animationDelay: '180ms' }}
-                    >
-                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
-                            Our Services
-                        </p>
-                        <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
-                            Premium and elegant
-                            <span className="text-[var(--landing-blue)]">
-                                grooming menus.
-                            </span>
-                        </h2>
-                        <p className="mt-4 text-sm text-[var(--landing-muted)] md:text-base">
-                            Choose the service level that suits your style. From
-                            signature fades to daily refresh, our barbers
-                            deliver the same standard every time.
-                        </p>
-                        <div className="mt-6 space-y-4">
-                            {services.map((service) => (
-                                <div
-                                    key={service.title}
-                                    className="flex items-center justify-between rounded-2xl border border-black/10 bg-white px-4 py-4"
-                                >
-                                    <div>
-                                        <p className="text-sm font-semibold">
-                                            {service.title}
-                                        </p>
-                                        <p className="text-xs text-[var(--landing-muted)]">
-                                            {service.detail}
-                                        </p>
-                                    </div>
-                                    <span className="rounded-full bg-[var(--landing-soft-red)] px-3 py-1 text-xs font-semibold text-[var(--landing-red)]">
-                                        {service.price}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                    <div className="relative">
-                        <img
-                            src="https://images.unsplash.com/photo-1521590832167-7bcbfaa6381f?auto=format&fit=crop&w=1200&q=80"
-                            alt="Barber service"
-                            className="h-[360px] w-full rounded-[30px] object-cover grayscale"
-                            loading="lazy"
-                        />
-                        <div className="absolute right-6 -bottom-6 rounded-2xl bg-[var(--landing-red)] px-4 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase">
-                            Premium & Elegant
-                        </div>
-                    </div>
-                </section>
-
-                <section
-                    id="testimonials"
-                    className="bg-[var(--landing-soft-blue)]/40"
-                >
-                    <div className="mx-auto max-w-6xl px-6 py-16">
-                        <div className="text-center">
-                            <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
-                                Voices of satisfaction
-                            </p>
-                            <h2 className="section-title mt-4 text-3xl font-semibold md:text-4xl">
-                                Trusted by the city
-                                <span className="text-[var(--landing-red)]">
-                                    every day.
-                                </span>
-                            </h2>
-                        </div>
-                        <div className="mt-10 grid gap-4 md:grid-cols-3">
-                            {testimonials.map((item) => (
-                                <div
-                                    key={item.name}
-                                    className="rounded-3xl border border-black/10 bg-white p-6"
-                                >
-                                    <p className="text-xs tracking-[0.3em] text-[var(--landing-muted)] uppercase">
-                                        5/5 rating
-                                    </p>
-                                    <p className="mt-4 text-sm text-[var(--landing-muted)]">
-                                        "{item.quote}"
-                                    </p>
-                                    <div className="mt-6">
-                                        <p className="text-sm font-semibold">
-                                            {item.name}
-                                        </p>
-                                        <p className="text-xs text-[var(--landing-muted)]">
-                                            {item.role}
-                                        </p>
-                                    </div>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-                </section>
-
-                <section id="team" className="mx-auto max-w-6xl px-6 py-16">
-                    <div className="flex flex-col items-center gap-4 text-center">
-                        <p className="text-xs tracking-[0.4em] text-[var(--landing-muted)] uppercase">
-                            Meet the team
-                        </p>
-                        <h2 className="section-title text-3xl font-semibold md:text-4xl">
-                            Crafted by barbers who care
-                            <span className="text-[var(--landing-blue)]">
-                                about the details.
-                            </span>
-                        </h2>
-                        <p className="max-w-2xl text-sm text-[var(--landing-muted)]">
-                            Each capster is trained for consistency. You can
-                            expect clean delivery, friendly guidance, and a
-                            unified service flow.
-                        </p>
-                    </div>
-                    <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {teamMembers.map((member) => (
-                            <div
-                                key={member.name}
-                                className="group overflow-hidden rounded-3xl border border-black/10 bg-white"
-                            >
-                                <img
-                                    src={member.image}
-                                    alt={member.name}
-                                    className="h-64 w-full object-cover grayscale transition duration-500 group-hover:scale-105"
-                                    loading="lazy"
-                                />
-                                <div className="p-4">
-                                    <p className="text-sm font-semibold">
-                                        {member.name}
-                                    </p>
-                                    <p className="text-xs text-[var(--landing-muted)]">
-                                        {member.role}
-                                    </p>
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
-
-                <section id="contact" className="bg-white">
-                    <div className="mx-auto grid max-w-6xl gap-10 px-6 py-16 md:grid-cols-[0.95fr_1.05fr]">
-                        <img
-                            src="https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&w=1200&q=80"
-                            alt="Barbershop chair"
-                            className="h-[320px] w-full rounded-[30px] object-cover grayscale"
-                            loading="lazy"
-                        />
-                        <div className="rounded-[30px] border border-black/10 bg-[var(--landing-dark)] p-8 text-white">
-                            <p className="text-xs tracking-[0.4em] text-white/60 uppercase">
-                                Contact us
-                            </p>
-                            <h2 className="section-title mt-4 text-3xl font-semibold">
-                                Ready for your next clean cut?
-                            </h2>
-                            <p className="mt-4 text-sm text-white/70">
-                                Stop by or book online. We keep every slot on
-                                time, so you can focus on your day.
-                            </p>
-                            <div className="mt-6 space-y-3 text-sm text-white/70">
-                                <p>Jl. Sudirman No. 24, Pontianak</p>
-                                <p>WhatsApp: 08xx-xxxx-xxxx</p>
-                                <p>Email: hello@coolhead.com</p>
-                            </div>
-                            <div className="mt-6 flex flex-wrap gap-3">
-                                <Link
-                                    href={auth.user ? dashboard() : login()}
-                                    className="rounded-full bg-[var(--landing-red)] px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:-translate-y-0.5"
-                                >
-                                    Book a Seat
-                                </Link>
-                                <a
-                                    href="https://maps.google.com"
-                                    target="_blank"
-                                    rel="noreferrer"
-                                    className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:bg-white hover:text-black"
-                                >
-                                    Open Maps
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </section>
 
                 <footer className="bg-[var(--landing-dark)] text-white/70">
                     <div className="mx-auto grid max-w-6xl gap-10 px-6 py-12 md:grid-cols-[1.2fr_1fr_1fr_1fr]">
@@ -627,8 +578,7 @@ export default function Welcome({
                                 </div>
                             </div>
                             <p className="mt-4 text-sm text-white/60">
-                                Luxury grooming for modern professionals. Clean
-                                cuts, clear schedule, consistent results.
+                                Clean cuts, clear schedule, good vibes.
                             </p>
                         </div>
                         <div>

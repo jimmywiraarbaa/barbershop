@@ -93,7 +93,8 @@ class CapsterController extends Controller
 
         Capster::create($data);
 
-        return to_route('capsters.index');
+        return to_route('capsters.index')
+            ->with('success', 'Capster berhasil ditambahkan.');
     }
 
     /**
@@ -186,7 +187,8 @@ class CapsterController extends Controller
 
         $capster->update($data);
 
-        return to_route('capsters.index');
+        return to_route('capsters.index')
+            ->with('success', 'Capster berhasil diperbarui.');
     }
 
     /**
@@ -196,6 +198,7 @@ class CapsterController extends Controller
     {
         $capster->delete();
 
-        return to_route('capsters.index');
+        return to_route('capsters.index')
+            ->with('success', 'Capster berhasil dihapus.');
     }
 }

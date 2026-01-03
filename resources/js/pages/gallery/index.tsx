@@ -17,7 +17,6 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -46,7 +45,6 @@ export default function GalleryIndex({
 }) {
     const [deleteTarget, setDeleteTarget] = useState<GalleryItem | null>(null);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const { toast } = useToast();
 
     const handleDelete = () => {
         const target = deleteTarget;
@@ -59,11 +57,6 @@ export default function GalleryIndex({
             onSuccess: () => {
                 setIsDeleteOpen(false);
                 setDeleteTarget(null);
-                toast({
-                    title: 'Item gallery dihapus',
-                    description: `"${target.title}" berhasil dihapus.`,
-                    variant: 'success',
-                });
             },
         });
     };

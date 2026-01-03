@@ -4,7 +4,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -23,7 +22,6 @@ export default function HairModelsEdit({
 }: {
     hairModel: HairModel;
 }) {
-    const { toast } = useToast();
     const [isCropping, setIsCropping] = useState(false);
     const form = useForm<{
         title: string;
@@ -50,13 +48,6 @@ export default function HairModelsEdit({
         event.preventDefault();
         form.put(`/model-rambut/${hairModel.id}`, {
             forceFormData: true,
-            onSuccess: () => {
-                toast({
-                    title: 'Perubahan disimpan',
-                    description: 'Model rambut berhasil diperbarui.',
-                    variant: 'success',
-                });
-            },
         });
     };
 

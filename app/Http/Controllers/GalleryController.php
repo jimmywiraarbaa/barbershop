@@ -88,7 +88,8 @@ class GalleryController extends Controller
                 Gallery::create($data);
             }
 
-            return to_route('galleries.index');
+            return to_route('galleries.index')
+                ->with('success', 'Gallery berhasil ditambahkan.');
         }
 
         $data = $request->validate([
@@ -110,7 +111,8 @@ class GalleryController extends Controller
 
         Gallery::create($data);
 
-        return to_route('galleries.index');
+        return to_route('galleries.index')
+            ->with('success', 'Gallery berhasil ditambahkan.');
     }
 
     /**
@@ -162,7 +164,8 @@ class GalleryController extends Controller
 
         $gallery->update($data);
 
-        return to_route('galleries.index');
+        return to_route('galleries.index')
+            ->with('success', 'Gallery berhasil diperbarui.');
     }
 
     /**
@@ -172,6 +175,7 @@ class GalleryController extends Controller
     {
         $gallery->delete();
 
-        return to_route('galleries.index');
+        return to_route('galleries.index')
+            ->with('success', 'Gallery berhasil dihapus.');
     }
 }

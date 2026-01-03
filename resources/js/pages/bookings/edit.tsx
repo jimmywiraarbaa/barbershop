@@ -11,7 +11,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { isShiftAvailable } from '@/lib/shift-utils';
 import { type BreadcrumbItem } from '@/types';
@@ -94,7 +93,6 @@ export default function BookingEdit({
     hairModels: HairModelOption[];
     prices: PriceOption[];
 }) {
-    const { toast } = useToast();
     const form = useForm({
         capster_id: String(booking.capsterId),
         model_rambut_id: booking.modelRambutId
@@ -139,15 +137,7 @@ export default function BookingEdit({
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        form.put(`/booking/${booking.id}`, {
-            onSuccess: () => {
-                toast({
-                    title: 'Perubahan disimpan',
-                    description: 'Data booking berhasil diperbarui.',
-                    variant: 'success',
-                });
-            },
-        });
+        form.put(`/booking/${booking.id}`);
     };
 
     return (

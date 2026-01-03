@@ -11,7 +11,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -90,7 +89,6 @@ export default function BookingCreate({
     hairModels: HairModelOption[];
     prices: PriceOption[];
 }) {
-    const { toast } = useToast();
     const form = useForm({
         capster_id: '',
         model_rambut_id: '',
@@ -122,15 +120,7 @@ export default function BookingCreate({
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        form.post('/booking', {
-            onSuccess: () => {
-                toast({
-                    title: 'Booking ditambahkan',
-                    description: 'Data berhasil disimpan.',
-                    variant: 'success',
-                });
-            },
-        });
+        form.post('/booking');
     };
 
     return (

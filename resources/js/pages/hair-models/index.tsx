@@ -16,7 +16,6 @@ import {
     DialogHeader,
     DialogTitle,
 } from '@/components/ui/dialog';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -43,7 +42,6 @@ export default function HairModelsIndex({
 }) {
     const [deleteTarget, setDeleteTarget] = useState<HairModel | null>(null);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const { toast } = useToast();
 
     const handleDelete = () => {
         const target = deleteTarget;
@@ -56,11 +54,6 @@ export default function HairModelsIndex({
             onSuccess: () => {
                 setIsDeleteOpen(false);
                 setDeleteTarget(null);
-                toast({
-                    title: 'Model rambut dihapus',
-                    description: `"${target.title}" berhasil dihapus.`,
-                    variant: 'success',
-                });
             },
         });
     };

@@ -10,7 +10,6 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { TimePicker } from '@/components/ui/time-picker';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -38,7 +37,6 @@ const dayOptions = [
 ];
 
 export default function WorkHoursCreate() {
-    const { toast } = useToast();
     const form = useForm<{
         name: string;
         day_start: string;
@@ -55,15 +53,7 @@ export default function WorkHoursCreate() {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        form.post('/jam-kerja', {
-            onSuccess: () => {
-                toast({
-                    title: 'Jam kerja ditambahkan',
-                    description: 'Data berhasil disimpan.',
-                    variant: 'success',
-                });
-            },
-        });
+        form.post('/jam-kerja');
     };
 
     return (

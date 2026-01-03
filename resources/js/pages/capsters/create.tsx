@@ -11,7 +11,6 @@ import {
     SelectTrigger,
     SelectValue,
 } from '@/components/ui/select';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -39,7 +38,6 @@ export default function CapstersCreate({
 }: {
     workHours: WorkHourOption[];
 }) {
-    const { toast } = useToast();
     const [isCropping, setIsCropping] = useState(false);
     const form = useForm<{
         name: string;
@@ -65,13 +63,6 @@ export default function CapstersCreate({
         event.preventDefault();
         form.post('/capster', {
             forceFormData: true,
-            onSuccess: () => {
-                toast({
-                    title: 'Capster ditambahkan',
-                    description: 'Data berhasil disimpan.',
-                    variant: 'success',
-                });
-            },
         });
     };
 

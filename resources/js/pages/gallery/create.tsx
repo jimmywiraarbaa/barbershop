@@ -5,7 +5,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -24,7 +23,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function GalleryCreate() {
-    const { toast } = useToast();
     const [pendingCrops, setPendingCrops] = useState<boolean[]>([]);
     const form = useForm<{
         items: Array<{
@@ -81,17 +79,6 @@ export default function GalleryCreate() {
         event.preventDefault();
         form.post('/gallery', {
             forceFormData: true,
-            onSuccess: () => {
-                const count = form.data.items.length;
-                toast({
-                    title:
-                        count > 1
-                            ? `${count} item gallery ditambahkan`
-                            : 'Item gallery ditambahkan',
-                    description: 'Data berhasil disimpan.',
-                    variant: 'success',
-                });
-            },
         });
     };
 

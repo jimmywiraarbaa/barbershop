@@ -57,7 +57,8 @@ class WorkHourController extends Controller
 
         WorkHour::create($data);
 
-        return to_route('work-hours.index');
+        return to_route('work-hours.index')
+            ->with('success', 'Jam kerja berhasil ditambahkan.');
     }
 
     /**
@@ -93,7 +94,8 @@ class WorkHourController extends Controller
 
         $workHour->update($data);
 
-        return to_route('work-hours.index');
+        return to_route('work-hours.index')
+            ->with('success', 'Jam kerja berhasil diperbarui.');
     }
 
     /**
@@ -103,6 +105,7 @@ class WorkHourController extends Controller
     {
         $workHour->delete();
 
-        return to_route('work-hours.index');
+        return to_route('work-hours.index')
+            ->with('success', 'Jam kerja berhasil dihapus.');
     }
 }

@@ -3,12 +3,31 @@ import { AppShell } from '@/components/app-shell';
 import { AppSidebar } from '@/components/app-sidebar';
 import { AppSidebarHeader } from '@/components/app-sidebar-header';
 import { type BreadcrumbItem } from '@/types';
-import { type PropsWithChildren } from 'react';
+import { usePage } from '@inertiajs/react';
+import { type PropsWithChildren, useEffect } from 'react';
+import { toast } from 'sonner';
 
 export default function AppSidebarLayout({
     children,
     breadcrumbs = [],
 }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
+    const { flash } = usePage<{
+        flash?: { success?: string | null; error?: string | null };
+    }>().props;
+
+    useEffect(() => {
+        if (flash?.success) {
+            toast.success(flash.success, {
+                id: `flash-success-${flash.success}`,
+            });
+        }
+        if (flash?.error) {
+            toast.error(flash.error, {
+                id: `flash-error-${flash.error}`,
+            });
+        }
+    }, [flash?.error, flash?.success]);
+
     return (
         <AppShell variant="sidebar">
             <AppSidebar />

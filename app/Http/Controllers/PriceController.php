@@ -51,7 +51,8 @@ class PriceController extends Controller
 
         Price::create($data);
 
-        return to_route('prices.index');
+        return to_route('prices.index')
+            ->with('success', 'Harga berhasil ditambahkan.');
     }
 
     /**
@@ -82,7 +83,8 @@ class PriceController extends Controller
 
         $price->update($data);
 
-        return to_route('prices.index');
+        return to_route('prices.index')
+            ->with('success', 'Harga berhasil diperbarui.');
     }
 
     /**
@@ -92,6 +94,7 @@ class PriceController extends Controller
     {
         $price->delete();
 
-        return to_route('prices.index');
+        return to_route('prices.index')
+            ->with('success', 'Harga berhasil dihapus.');
     }
 }

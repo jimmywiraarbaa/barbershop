@@ -154,7 +154,8 @@ class BookingController extends Controller
 
         Booking::create($data);
 
-        return to_route('bookings.index');
+        return to_route('bookings.index')
+            ->with('success', 'Booking berhasil ditambahkan.');
     }
 
     /**
@@ -272,7 +273,8 @@ class BookingController extends Controller
 
         $booking->update($data);
 
-        return to_route('bookings.index');
+        return to_route('bookings.index')
+            ->with('success', 'Booking berhasil diperbarui.');
     }
 
     /**
@@ -282,6 +284,7 @@ class BookingController extends Controller
     {
         $booking->delete();
 
-        return to_route('bookings.index');
+        return to_route('bookings.index')
+            ->with('success', 'Booking berhasil dihapus.');
     }
 }

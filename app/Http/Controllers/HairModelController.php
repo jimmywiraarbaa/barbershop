@@ -58,7 +58,8 @@ class HairModelController extends Controller
 
         HairModel::create($data);
 
-        return to_route('hair-models.index');
+        return to_route('hair-models.index')
+            ->with('success', 'Model rambut berhasil ditambahkan.');
     }
 
     /**
@@ -101,7 +102,8 @@ class HairModelController extends Controller
 
         $hairModel->update($data);
 
-        return to_route('hair-models.index');
+        return to_route('hair-models.index')
+            ->with('success', 'Model rambut berhasil diperbarui.');
     }
 
     /**
@@ -111,6 +113,7 @@ class HairModelController extends Controller
     {
         $hairModel->delete();
 
-        return to_route('hair-models.index');
+        return to_route('hair-models.index')
+            ->with('success', 'Model rambut berhasil dihapus.');
     }
 }

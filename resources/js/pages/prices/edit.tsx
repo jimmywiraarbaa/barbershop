@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -17,7 +16,6 @@ type PriceItem = {
 };
 
 export default function PricesEdit({ price }: { price: PriceItem }) {
-    const { toast } = useToast();
     const form = useForm<{
         name: string;
         price: string;
@@ -41,15 +39,7 @@ export default function PricesEdit({ price }: { price: PriceItem }) {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        form.put(`/harga/${price.id}`, {
-            onSuccess: () => {
-                toast({
-                    title: 'Perubahan disimpan',
-                    description: 'Harga berhasil diperbarui.',
-                    variant: 'success',
-                });
-            },
-        });
+        form.put(`/harga/${price.id}`);
     };
 
     return (

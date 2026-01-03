@@ -3,7 +3,6 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -21,7 +20,6 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 export default function PricesCreate() {
-    const { toast } = useToast();
     const form = useForm<{
         name: string;
         price: string;
@@ -34,15 +32,7 @@ export default function PricesCreate() {
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
-        form.post('/harga', {
-            onSuccess: () => {
-                toast({
-                    title: 'Harga ditambahkan',
-                    description: 'Data berhasil disimpan.',
-                    variant: 'success',
-                });
-            },
-        });
+        form.post('/harga');
     };
 
     return (

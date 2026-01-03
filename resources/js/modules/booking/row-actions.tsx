@@ -18,23 +18,16 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useToast } from '@/hooks/use-toast';
 import { type BookingRow } from '@/modules/booking/columns';
 
 export function BookingRowActions({ booking }: { booking: BookingRow }) {
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-    const { toast } = useToast();
 
     const handleDelete = () => {
         router.delete(`/booking/${booking.id}`, {
             preserveScroll: true,
             onSuccess: () => {
                 setIsDeleteOpen(false);
-                toast({
-                    title: 'Booking dihapus',
-                    description: `"${booking.name || 'Tanpa nama'}" berhasil dihapus.`,
-                    variant: 'success',
-                });
             },
         });
     };

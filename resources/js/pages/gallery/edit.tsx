@@ -5,7 +5,6 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
@@ -22,7 +21,6 @@ type GalleryItem = {
 };
 
 export default function GalleryEdit({ gallery }: { gallery: GalleryItem }) {
-    const { toast } = useToast();
     const [isCropping, setIsCropping] = useState(false);
     const form = useForm<{
         title: string;
@@ -53,13 +51,6 @@ export default function GalleryEdit({ gallery }: { gallery: GalleryItem }) {
         event.preventDefault();
         form.put(`/gallery/${gallery.id}`, {
             forceFormData: true,
-            onSuccess: () => {
-                toast({
-                    title: 'Perubahan disimpan',
-                    description: 'Item gallery berhasil diperbarui.',
-                    variant: 'success',
-                });
-            },
         });
     };
 

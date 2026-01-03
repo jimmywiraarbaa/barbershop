@@ -17,7 +17,6 @@ import {
     DialogTitle,
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
-import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, router } from '@inertiajs/react';
@@ -44,7 +43,6 @@ export default function CapstersIndex({ capsters }: { capsters: Capster[] }) {
     const [deleteTarget, setDeleteTarget] = useState<Capster | null>(null);
     const [isDeleteOpen, setIsDeleteOpen] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
-    const { toast } = useToast();
     const filteredCapsters = useMemo(() => {
         const query = searchTerm.trim().toLowerCase();
         if (! query) {
@@ -76,11 +74,6 @@ export default function CapstersIndex({ capsters }: { capsters: Capster[] }) {
             onSuccess: () => {
                 setIsDeleteOpen(false);
                 setDeleteTarget(null);
-                toast({
-                    title: 'Capster dihapus',
-                    description: `"${target.name}" berhasil dihapus.`,
-                    variant: 'success',
-                });
             },
         });
     };

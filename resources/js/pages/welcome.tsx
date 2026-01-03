@@ -229,7 +229,7 @@ export default function Welcome({
                             </p>
                             <div className="mt-6 flex flex-wrap items-center gap-3">
                                 <Link
-                                    href={auth.user ? dashboard() : login()}
+                                    href={auth.user ? dashboard() : '/booking-barber'}
                                     className="rounded-full bg-[var(--landing-red)] px-6 py-3 text-xs font-semibold tracking-[0.25em] text-white uppercase shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
                                 >
                                     Booking Slot
@@ -452,7 +452,7 @@ export default function Welcome({
                             </div>
                             <div className="mt-6 flex flex-wrap gap-3">
                                 <Link
-                                    href={auth.user ? dashboard() : login()}
+                                    href={auth.user ? dashboard() : '/booking-barber'}
                                     className="rounded-full bg-[var(--landing-red)] px-5 py-2 text-xs font-semibold tracking-[0.25em] text-white uppercase transition hover:-translate-y-0.5"
                                 >
                                     Book Slot

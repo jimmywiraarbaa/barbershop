@@ -1,3 +1,4 @@
+import { DatePickerInput } from '@/components/date-picker-input';
 import InputError from '@/components/input-error';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -93,6 +94,7 @@ export default function BookingCreate({
         capster_id: '',
         model_rambut_id: '',
         price_id: '',
+        booking_date: '',
         status: 'waiting',
         name: '',
         email: '',
@@ -132,6 +134,20 @@ export default function BookingCreate({
                 </div>
 
                 <form onSubmit={handleSubmit} className="max-w-2xl space-y-6">
+                    <div className="grid gap-2">
+                        <Label htmlFor="booking_date">Tanggal</Label>
+                        <DatePickerInput
+                            id="booking_date"
+                            value={form.data.booking_date}
+                            onChange={(value) =>
+                                form.setData('booking_date', value)
+                            }
+                            ariaInvalid={!!form.errors.booking_date}
+                            allowClear
+                        />
+                        <InputError message={form.errors.booking_date} />
+                    </div>
+
                     <div className="grid gap-2">
                         <Label htmlFor="capster_id">Capster</Label>
                         <Select

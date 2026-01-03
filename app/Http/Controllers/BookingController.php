@@ -35,6 +35,7 @@ class BookingController extends Controller
                 'priceId' => $booking->price_id,
                 'priceName' => $booking->price?->name,
                 'priceAmount' => $booking->price?->price,
+                'bookingDate' => $booking->booking_date?->toDateString(),
                 'status' => $booking->status,
                 'name' => $booking->name,
                 'email' => $booking->email,
@@ -113,6 +114,7 @@ class BookingController extends Controller
                 'integer',
                 'exists:prices,id',
             ],
+            'booking_date' => ['nullable', 'date_format:Y-m-d'],
             'status' => ['nullable', 'string', 'in:waiting,selesai'],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',
@@ -195,6 +197,7 @@ class BookingController extends Controller
                 'capsterId' => $booking->capster_id,
                 'modelRambutId' => $booking->model_rambut_id,
                 'priceId' => $booking->price_id,
+                'bookingDate' => $booking->booking_date?->toDateString(),
                 'status' => $booking->status,
                 'name' => $booking->name,
                 'email' => $booking->email,
@@ -219,6 +222,7 @@ class BookingController extends Controller
                 'integer',
                 'exists:prices,id',
             ],
+            'booking_date' => ['nullable', 'date_format:Y-m-d'],
             'status' => ['nullable', 'string', 'in:waiting,selesai'],
             'name' => [
                 $requireCustomerFields ? 'required' : 'nullable',

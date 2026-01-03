@@ -5,6 +5,7 @@ use App\Http\Controllers\CapsterController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\HairModelController;
 use App\Http\Controllers\PriceController;
+use App\Http\Controllers\PublicBookingController;
 use App\Http\Controllers\WorkHourController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -15,6 +16,11 @@ Route::get('/', function () {
         'canRegister' => Features::enabled(Features::registration()),
     ]);
 })->name('home');
+
+Route::get('booking-barber', [PublicBookingController::class, 'create'])
+    ->name('public-booking.create');
+Route::post('booking-barber', [PublicBookingController::class, 'store'])
+    ->name('public-booking.store');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('dashboard', function () {

@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Capster;
 use App\Models\HairModel;
 use App\Models\Price;
+use App\Support\WorkHourAvailability;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -141,6 +142,16 @@ class BookingController extends Controller
 
         $data['status'] = $data['status'] ?? 'waiting';
 
+        $capster = Capster::query()
+            ->with('workHour')
+            ->find($data['capster_id']);
+
+        if (! WorkHourAvailability::isWithinShift($capster?->workHour, $data['booking_date'] ?? null)) {
+            return back()
+                ->withErrors(['capster_id' => 'Capster tidak tersedia di luar jam kerja.'])
+                ->withInput();
+        }
+
         Booking::create($data);
 
         return to_route('bookings.index');
@@ -248,6 +259,16 @@ class BookingController extends Controller
         ]);
 
         $data['status'] = $data['status'] ?? $booking->status ?? 'waiting';
+
+        $capster = Capster::query()
+            ->with('workHour')
+            ->find($data['capster_id']);
+
+        if (! WorkHourAvailability::isWithinShift($capster?->workHour, $data['booking_date'] ?? null)) {
+            return back()
+                ->withErrors(['capster_id' => 'Capster tidak tersedia di luar jam kerja.'])
+                ->withInput();
+        }
 
         $booking->update($data);
 

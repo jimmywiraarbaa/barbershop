@@ -13,9 +13,10 @@ import {
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
+import { isShiftAvailable } from '@/lib/shift-utils';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import type { FormEvent } from 'react';
+import { useEffect, type FormEvent } from 'react';
 
 type CapsterOption = {
     id: number;
@@ -108,6 +109,23 @@ export default function BookingEdit({
         notes: booking.notes ?? '',
     });
 
+    useEffect(() => {
+        if (!form.data.capster_id) {
+            return;
+        }
+
+        const capster = capsters.find(
+            (item) => String(item.id) === form.data.capster_id,
+        );
+        if (!capster) {
+            return;
+        }
+
+        if (!isShiftAvailable(capster, form.data.booking_date)) {
+            form.setData('capster_id', '');
+        }
+    }, [capsters, form, form.data.booking_date, form.data.capster_id]);
+
     const breadcrumbs: BreadcrumbItem[] = [
         {
             title: 'Booking',
@@ -191,6 +209,12 @@ export default function BookingEdit({
                                             key={capster.id}
                                             value={String(capster.id)}
                                             textValue={capster.name}
+                                            disabled={
+                                                !isShiftAvailable(
+                                                    capster,
+                                                    form.data.booking_date,
+                                                )
+                                            }
                                         >
                                             <div className="flex items-center gap-3">
                                                 <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted/40 text-[10px] font-semibold text-muted-foreground">
@@ -210,6 +234,12 @@ export default function BookingEdit({
                                                     </p>
                                                     <p className="text-xs text-muted-foreground">
                                                         {formatShift(capster)}
+                                                        {!isShiftAvailable(
+                                                            capster,
+                                                            form.data.booking_date,
+                                                        )
+                                                            ? ' · Off shift'
+                                                            : ''}
                                                     </p>
                                                 </div>
                                             </div>

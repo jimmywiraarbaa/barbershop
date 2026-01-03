@@ -15,7 +15,8 @@ import { useToast } from '@/hooks/use-toast';
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head, Link, useForm } from '@inertiajs/react';
-import type { FormEvent } from 'react';
+import { useEffect, type FormEvent } from 'react';
+import { isShiftAvailable } from '@/lib/shift-utils';
 
 type CapsterOption = {
     id: number;
@@ -102,6 +103,23 @@ export default function BookingCreate({
         notes: '',
     });
 
+    useEffect(() => {
+        if (!form.data.capster_id) {
+            return;
+        }
+
+        const capster = capsters.find(
+            (item) => String(item.id) === form.data.capster_id,
+        );
+        if (!capster) {
+            return;
+        }
+
+        if (!isShiftAvailable(capster, form.data.booking_date)) {
+            form.setData('capster_id', '');
+        }
+    }, [capsters, form, form.data.booking_date, form.data.capster_id]);
+
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
         form.post('/booking', {
@@ -170,15 +188,21 @@ export default function BookingCreate({
                                     </SelectItem>
                                 ) : (
                                     capsters.map((capster) => (
-                                        <SelectItem
-                                            key={capster.id}
-                                            value={String(capster.id)}
-                                            textValue={capster.name}
-                                        >
-                                            <div className="flex items-center gap-3">
-                                                <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted/40 text-[10px] font-semibold text-muted-foreground">
-                                                    {capster.imageUrl ? (
-                                                        <img
+                                    <SelectItem
+                                        key={capster.id}
+                                        value={String(capster.id)}
+                                        textValue={capster.name}
+                                        disabled={
+                                            !isShiftAvailable(
+                                                capster,
+                                                form.data.booking_date,
+                                            )
+                                        }
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted/40 text-[10px] font-semibold text-muted-foreground">
+                                                {capster.imageUrl ? (
+                                                    <img
                                                             src={capster.imageUrl}
                                                             alt={capster.name}
                                                             className="h-full w-full object-cover"
@@ -193,6 +217,12 @@ export default function BookingCreate({
                                                     </p>
                                                     <p className="text-xs text-muted-foreground">
                                                         {formatShift(capster)}
+                                                        {!isShiftAvailable(
+                                                            capster,
+                                                            form.data.booking_date,
+                                                        )
+                                                            ? ' · Off shift'
+                                                            : ''}
                                                     </p>
                                                 </div>
                                             </div>

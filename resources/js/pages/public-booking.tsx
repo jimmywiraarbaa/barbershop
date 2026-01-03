@@ -12,8 +12,9 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
+import { isShiftAvailable } from '@/lib/shift-utils';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
-import { useMemo, type FormEvent } from 'react';
+import { useEffect, useMemo, type FormEvent } from 'react';
 
 type CapsterOption = {
     id: number;
@@ -97,6 +98,23 @@ export default function PublicBooking() {
         captcha_answer: '',
         website: '',
     });
+
+    useEffect(() => {
+        if (!form.data.capster_id) {
+            return;
+        }
+
+        const capster = capsters.find(
+            (item) => String(item.id) === form.data.capster_id,
+        );
+        if (!capster) {
+            return;
+        }
+
+        if (!isShiftAvailable(capster, form.data.booking_date)) {
+            form.setData('capster_id', '');
+        }
+    }, [capsters, form, form.data.booking_date, form.data.capster_id]);
 
     const handleSubmit = (event: FormEvent) => {
         event.preventDefault();
@@ -188,6 +206,12 @@ export default function PublicBooking() {
                                                 key={capster.id}
                                                 value={String(capster.id)}
                                                 textValue={capster.name}
+                                                disabled={
+                                                    !isShiftAvailable(
+                                                        capster,
+                                                        form.data.booking_date,
+                                                    )
+                                                }
                                             >
                                                 <div className="flex items-center gap-3">
                                                     <div className="flex h-11 w-11 items-center justify-center overflow-hidden rounded-lg border border-border bg-muted/40 text-[10px] font-semibold text-muted-foreground">
@@ -211,6 +235,12 @@ export default function PublicBooking() {
                                                             {formatShift(
                                                                 capster,
                                                             )}
+                                                            {!isShiftAvailable(
+                                                                capster,
+                                                                form.data.booking_date,
+                                                            )
+                                                                ? ' · Off shift'
+                                                                : ''}
                                                         </p>
                                                     </div>
                                                 </div>

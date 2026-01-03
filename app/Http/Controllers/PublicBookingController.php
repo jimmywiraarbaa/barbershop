@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Capster;
 use App\Models\HairModel;
 use App\Models\Price;
+use App\Support\WorkHourAvailability;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
@@ -129,6 +130,15 @@ class PublicBookingController extends Controller
         $expectedCaptcha = (string) $request->session()->pull(self::CAPTCHA_ANSWER_KEY, '');
         if (! hash_equals($expectedCaptcha, (string) ($data['captcha_answer'] ?? ''))) {
             $this->logAttempt($request, 'captcha_failed');
+            return $this->reject($request);
+        }
+
+        $capster = Capster::query()
+            ->with('workHour')
+            ->find($data['capster_id']);
+
+        if (! WorkHourAvailability::isWithinShift($capster?->workHour, $data['booking_date'] ?? null)) {
+            $this->logAttempt($request, 'outside_shift');
             return $this->reject($request);
         }
 

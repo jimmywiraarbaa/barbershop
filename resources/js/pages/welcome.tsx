@@ -83,6 +83,7 @@ export default function Welcome({
 }) {
     const { auth } = usePage<SharedData>().props;
     const [isScrolled, setIsScrolled] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -185,6 +186,8 @@ export default function Welcome({
                             </p>
                         </div>
                     </div>
+
+                    {/* Desktop Nav */}
                     <nav className="hidden items-center gap-6 text-xs tracking-[0.3em] text-white/70 uppercase lg:flex">
                         {navLinks.map((link) => (
                             <a
@@ -196,7 +199,9 @@ export default function Welcome({
                             </a>
                         ))}
                     </nav>
-                    <div className="flex items-center gap-2">
+
+                    {/* Desktop Auth Buttons */}
+                    <div className="hidden items-center gap-2 lg:flex">
                         {auth.user ? (
                             <Link
                                 href={dashboard()}
@@ -223,7 +228,84 @@ export default function Welcome({
                             </>
                         )}
                     </div>
+
+                    {/* Mobile Burger Button */}
+                    <button
+                        className="lg:hidden flex flex-col items-center justify-center gap-1.5 text-white"
+                        onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+                        aria-label="Toggle menu"
+                    >
+                        <span
+                            className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+                                isMobileMenuOpen ? 'rotate-45 translate-y-2' : ''
+                            }`}
+                        />
+                        <span
+                            className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+                                isMobileMenuOpen ? 'opacity-0' : ''
+                            }`}
+                        />
+                        <span
+                            className={`h-0.5 w-6 bg-white transition-all duration-300 ${
+                                isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''
+                            }`}
+                        />
+                    </button>
                 </header>
+
+                {/* Mobile Menu */}
+                <div
+                    className={`fixed inset-0 z-40 bg-black/95 backdrop-blur-lg transition-all duration-300 lg:hidden ${
+                        isMobileMenuOpen
+                            ? 'opacity-100 pointer-events-auto'
+                            : 'opacity-0 pointer-events-none'
+                    }`}
+                >
+                    <div className="flex h-full flex-col items-center justify-center gap-8 px-6">
+                        <nav className="flex flex-col items-center gap-6 text-center">
+                            {navLinks.map((link) => (
+                                <a
+                                    key={link.href}
+                                    href={link.href}
+                                    className="text-xl font-medium tracking-widest text-white uppercase transition hover:text-white/70"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    {link.label}
+                                </a>
+                            ))}
+                        </nav>
+                        <div className="flex flex-col items-center gap-4">
+                            {auth.user ? (
+                                <Link
+                                    href={dashboard()}
+                                    className="w-full rounded-full bg-[var(--landing-red)] px-8 py-3 text-sm font-semibold tracking-widest text-white uppercase transition hover:-translate-y-0.5"
+                                    onClick={() => setIsMobileMenuOpen(false)}
+                                >
+                                    Dashboard
+                                </Link>
+                            ) : (
+                                <>
+                                    <Link
+                                        href={login()}
+                                        className="w-full rounded-full border border-white/40 px-8 py-3 text-sm font-semibold tracking-widest text-white uppercase transition hover:bg-white hover:text-black"
+                                        onClick={() => setIsMobileMenuOpen(false)}
+                                    >
+                                        Masuk
+                                    </Link>
+                                    {canRegister && (
+                                        <Link
+                                            href={register()}
+                                            className="w-full rounded-full bg-[var(--landing-red)] px-8 py-3 text-sm font-semibold tracking-widest text-white uppercase shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
+                                            onClick={() => setIsMobileMenuOpen(false)}
+                                        >
+                                            Daftar
+                                        </Link>
+                                    )}
+                                </>
+                            )}
+                        </div>
+                    </div>
+                </div>
 
                 <div className="landing-hero relative">
                     <main className="mx-auto grid max-w-6xl gap-12 px-6 pt-28 pb-24 text-white lg:grid-cols-[1.05fr_0.95fr]">

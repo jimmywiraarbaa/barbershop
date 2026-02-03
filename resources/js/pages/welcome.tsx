@@ -12,11 +12,6 @@ const navLinks = [
     { label: 'Contact', href: '#contact' },
 ];
 
-const stats = [
-    { label: 'Capster aktif', value: '4' },
-    { label: 'Open daily', value: '09.00 - 23.00' },
-];
-
 const services = [
     {
         title: 'Signature Fade',
@@ -53,33 +48,12 @@ const testimonials = [
     },
 ];
 
-const teamMembers = [
-    {
-        name: 'Ronaldo F',
-        role: 'Lead Barber',
-        image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-        name: 'Jenna S',
-        role: 'Style Curator',
-        image: 'https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-        name: 'Irfan K',
-        role: 'Fade Specialist',
-        image: 'https://images.unsplash.com/photo-1544723795-3fb6469f5b39?auto=format&fit=crop&w=800&q=80',
-    },
-    {
-        name: 'Ayu M',
-        role: 'Grooming Pro',
-        image: 'https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format&fit=crop&w=800&q=80',
-    },
-];
-
 export default function Welcome({
     canRegister = true,
+    capsters = [],
 }: {
     canRegister?: boolean;
+    capsters?: Array<{ id: number; name: string; image?: string; whatsapp?: string; role: string }>;
 }) {
     const { auth } = usePage<SharedData>().props;
     const [isScrolled, setIsScrolled] = useState(false);
@@ -341,7 +315,10 @@ export default function Welcome({
                                 </a>
                             </div>
                             <div className="mt-10 grid gap-4 md:grid-cols-2">
-                                {stats.map((stat, index) => (
+                                {[
+                                    { label: `${capsters.length} Capster aktif`, value: 'Ready' },
+                                    { label: 'Open daily', value: '09.00 - 23.00' },
+                                ].map((stat, index) => (
                                     <div
                                         key={stat.label}
                                         className="rounded-2xl border border-white/15 bg-white/10 p-4 text-xs backdrop-blur"
@@ -452,13 +429,16 @@ export default function Welcome({
                         </p>
                     </div>
                     <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-                        {teamMembers.map((member) => (
+                        {capsters.map((member) => (
                             <div
-                                key={member.name}
+                                key={member.id}
                                 className="group overflow-hidden rounded-3xl border border-black/10 bg-white"
                             >
                                 <img
-                                    src={member.image}
+                                    src={
+                                        member.image ??
+                                        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=800&q=80'
+                                    }
                                     alt={member.name}
                                     className="h-64 w-full object-cover grayscale transition duration-500 group-hover:scale-105"
                                     loading="lazy"

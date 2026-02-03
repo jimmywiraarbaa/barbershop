@@ -7,13 +7,25 @@ use App\Http\Controllers\HairModelController;
 use App\Http\Controllers\PriceController;
 use App\Http\Controllers\PublicBookingController;
 use App\Http\Controllers\WorkHourController;
+use App\Models\Capster;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
 Route::get('/', function () {
+    $capsters = Capster::with('workHour')
+        ->get()
+        ->map(fn ($capster) => [
+            'id' => $capster->id,
+            'name' => $capster->name,
+            'image' => $capster->image,
+            'whatsapp' => $capster->whatsapp,
+            'role' => 'Barber',
+        ]);
+
     return Inertia::render('welcome', [
         'canRegister' => Features::enabled(Features::registration()),
+        'capsters' => $capsters,
     ]);
 })->name('home');
 

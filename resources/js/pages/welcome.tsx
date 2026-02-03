@@ -1,6 +1,7 @@
 import { dashboard, login, register } from '@/routes';
 import { type SharedData } from '@/types';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { useEffect, useState } from 'react';
 
 const navLinks = [
     { label: 'Home', href: '#top' },
@@ -81,6 +82,16 @@ export default function Welcome({
     canRegister?: boolean;
 }) {
     const { auth } = usePage<SharedData>().props;
+    const [isScrolled, setIsScrolled] = useState(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            setIsScrolled(window.scrollY > 50);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
 
     return (
         <>
@@ -157,59 +168,65 @@ export default function Welcome({
                 className="min-h-screen bg-[var(--landing-bg)] text-[var(--landing-ink)]"
                 style={{ fontFamily: 'Manrope, sans-serif' }}
             >
-                <div className="landing-hero relative">
-                    <header className="mx-auto flex max-w-6xl items-center justify-between px-6 py-6 text-white">
-                        <div className="flex items-center gap-3">
-                            <div>
-                                <p className="text-xs tracking-[0.4em] text-white/60 uppercase">
-                                    Coolhead
-                                </p>
-                                <p className="text-sm font-medium">
-                                    Barbershop
-                                </p>
-                            </div>
+                <header
+                    className={`fixed top-0 left-0 right-0 z-50 mx-auto flex max-w-6xl items-center justify-between px-6 py-6 text-white transition-all duration-300 ${
+                        isScrolled
+                            ? 'mx-4 mt-2 bg-black/70 backdrop-blur-md border border-white/10 rounded-full shadow-lg'
+                            : ''
+                    }`}
+                >
+                    <div className="flex items-center gap-3">
+                        <div>
+                            <p className="text-xs tracking-[0.4em] text-white/60 uppercase">
+                                Coolhead
+                            </p>
+                            <p className="text-sm font-medium">
+                                Barbershop
+                            </p>
                         </div>
-                        <nav className="hidden items-center gap-6 text-xs tracking-[0.3em] text-white/70 uppercase lg:flex">
-                            {navLinks.map((link) => (
-                                <a
-                                    key={link.href}
-                                    href={link.href}
-                                    className="transition hover:text-white"
-                                >
-                                    {link.label}
-                                </a>
-                            ))}
-                        </nav>
-                        <div className="flex items-center gap-2">
-                            {auth.user ? (
+                    </div>
+                    <nav className="hidden items-center gap-6 text-xs tracking-[0.3em] text-white/70 uppercase lg:flex">
+                        {navLinks.map((link) => (
+                            <a
+                                key={link.href}
+                                href={link.href}
+                                className="transition hover:text-white mix-blend-difference"
+                            >
+                                {link.label}
+                            </a>
+                        ))}
+                    </nav>
+                    <div className="flex items-center gap-2">
+                        {auth.user ? (
+                            <Link
+                                href={dashboard()}
+                                className="rounded-full border border-white/40 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase transition hover:bg-white hover:text-black"
+                            >
+                                Dashboard
+                            </Link>
+                        ) : (
+                            <>
                                 <Link
-                                    href={dashboard()}
+                                    href={login()}
                                     className="rounded-full border border-white/40 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase transition hover:bg-white hover:text-black"
                                 >
-                                    Dashboard
+                                    Masuk
                                 </Link>
-                            ) : (
-                                <>
+                                {canRegister && (
                                     <Link
-                                        href={login()}
-                                        className="rounded-full border border-white/40 px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase transition hover:bg-white hover:text-black"
+                                        href={register()}
+                                        className="rounded-full bg-[var(--landing-red)] px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
                                     >
-                                        Masuk
+                                        Daftar
                                     </Link>
-                                    {canRegister && (
-                                        <Link
-                                            href={register()}
-                                            className="rounded-full bg-[var(--landing-red)] px-4 py-2 text-xs font-semibold tracking-[0.2em] text-white uppercase shadow-[0_18px_40px_-20px_rgba(215,38,61,0.8)] transition hover:-translate-y-0.5"
-                                        >
-                                            Daftar
-                                        </Link>
-                                    )}
-                                </>
-                            )}
-                        </div>
-                    </header>
+                                )}
+                            </>
+                        )}
+                    </div>
+                </header>
 
-                    <main className="mx-auto grid max-w-6xl gap-12 px-6 pt-10 pb-24 text-white lg:grid-cols-[1.05fr_0.95fr]">
+                <div className="landing-hero relative">
+                    <main className="mx-auto grid max-w-6xl gap-12 px-6 pt-28 pb-24 text-white lg:grid-cols-[1.05fr_0.95fr]">
                         <div
                             className="fade-up"
                             style={{ animationDelay: '120ms' }}
